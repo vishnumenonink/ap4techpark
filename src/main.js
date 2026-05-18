@@ -1,27 +1,8 @@
 import './style.css';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Lenis from '@studio-freight/lenis';
 
 gsap.registerPlugin(ScrollTrigger);
-
-/* ============================================================
-   LENIS SMOOTH SCROLL
-   ============================================================ */
-const lenis = new Lenis({
-  duration: 1.0,
-  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smoothWheel: true,
-});
-
-lenis.on('scroll', ScrollTrigger.update);
-
-// Use native RAF — more reliable than GSAP ticker in production
-function lenisRaf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(lenisRaf);
-}
-requestAnimationFrame(lenisRaf);
 
 /* ============================================================
    NAV — scroll state + hamburger
