@@ -9,15 +9,19 @@ gsap.registerPlugin(ScrollTrigger);
    LENIS SMOOTH SCROLL
    ============================================================ */
 const lenis = new Lenis({
-  duration: 1.3,
+  duration: 1.0,
   easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
   smoothWheel: true,
 });
 
 lenis.on('scroll', ScrollTrigger.update);
 
-gsap.ticker.add(time => lenis.raf(time * 1000));
-gsap.ticker.lagSmoothing(0);
+// Use native RAF — more reliable than GSAP ticker in production
+function lenisRaf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(lenisRaf);
+}
+requestAnimationFrame(lenisRaf);
 
 /* ============================================================
    NAV — scroll state + hamburger
@@ -257,20 +261,6 @@ gsap.to('.hero-bg img', {
 /* ============================================================
    SECTION TRANSITIONS — stagger children on entry
    ============================================================ */
-// Stats row items
-gsap.from('.stat-card', {
-  y: 30,
-  opacity: 0,
-  duration: 0.7,
-  stagger: 0.08,
-  ease: 'power3.out',
-  scrollTrigger: {
-    trigger: '.stats-row',
-    start: 'top 80%',
-    once: true,
-  },
-});
-
 // Spec items
 gsap.from('.spec-item', {
   y: 20,
@@ -327,19 +317,6 @@ gsap.from('.press-card', {
   },
 });
 
-// Client chips
-gsap.from('.client-chip', {
-  scale: 0.90,
-  opacity: 0,
-  duration: 0.5,
-  stagger: 0.04,
-  ease: 'back.out(2)',
-  scrollTrigger: {
-    trigger: '.clients-grid',
-    start: 'top 85%',
-    once: true,
-  },
-});
 
 /* ============================================================
    DIST ITEMS — stagger in
