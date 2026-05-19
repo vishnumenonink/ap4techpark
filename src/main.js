@@ -463,27 +463,56 @@ document.addEventListener('keydown', e => {
 /* ============================================================
    CONTACT FORM
    ============================================================ */
-const form = document.getElementById('contactForm');
+/* ============================================================
+   CONDITIONAL FORM LOGIC
+   ============================================================ */
+const form        = document.getElementById('contactForm');
+const subjectSel  = document.getElementById('fsubject');
+const fieldEmail  = document.getElementById('fieldEmail');
+const fieldPhone  = document.getElementById('fieldPhone');
+const emailInput  = document.getElementById('femail');
+const phoneInput  = document.getElementById('fphone');
+
+function updateFormFields() {
+  const val = subjectSel ? subjectSel.value : '';
+  if (val === 'Request Details - AP4 Tech Park') {
+    fieldEmail.style.display = '';
+    fieldPhone.style.display = '';
+    if (emailInput) emailInput.required = true;
+    if (phoneInput) phoneInput.required = false;
+  } else if (val === 'Request Callback - AP4 Tech Park') {
+    fieldEmail.style.display = 'none';
+    fieldPhone.style.display = '';
+    if (emailInput) { emailInput.required = false; emailInput.value = ''; }
+    if (phoneInput) phoneInput.required = true;
+  } else {
+    fieldEmail.style.display = 'none';
+    fieldPhone.style.display = 'none';
+    if (emailInput) emailInput.required = false;
+    if (phoneInput) phoneInput.required = false;
+  }
+}
+
+if (subjectSel) subjectSel.addEventListener('change', updateFormFields);
+
 if (form) {
   form.addEventListener('submit', e => {
     e.preventDefault();
 
     const name    = form.querySelector('[name="name"]').value.trim();
-    const email   = form.querySelector('[name="email"]').value.trim();
-    const phone   = form.querySelector('[name="phone"]').value.trim();
-    const company = form.querySelector('[name="company"]').value.trim();
-    const message = form.querySelector('[name="message"]').value.trim();
+    const subject = subjectSel ? subjectSel.value : 'AP4 Tech Park Enquiry';
+    const email   = emailInput ? emailInput.value.trim() : '';
+    const phone   = phoneInput ? phoneInput.value.trim() : '';
 
-    // Build mailto link
-    const subject = encodeURIComponent('AP4 Tech Park Landing Page Enquiry');
+    const mailSubject = encodeURIComponent(subject);
     const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\nPhone: ${phone || '—'}\nCompany: ${company || '—'}\n\nMessage:\n${message || '—'}`
+      `Name: ${name}\nEnquiry: ${subject}${email ? '\nEmail: ' + email : ''}${phone ? '\nPhone: ' + phone : ''}`
     );
-    window.location.href = `mailto:vishnu@inkmedia.in?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:vishnu@inkmedia.in?subject=${mailSubject}&body=${body}`;
 
     const btn = form.querySelector('.form-submit');
     const orig = btn.textContent;
-    btn.textContent = 'Thank you — we\'ll be in touch shortly.';
+    btn.textContent = 'Thank you, we\'ll be in touch shortly.';
     btn.disabled = true;
     btn.style.background = '#2e7d32';
     setTimeout(() => {
@@ -491,6 +520,7 @@ if (form) {
       btn.disabled = false;
       btn.style.background = '';
       form.reset();
+      updateFormFields();
     }, 4000);
   });
 }
