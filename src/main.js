@@ -476,13 +476,13 @@ const phoneInput  = document.getElementById('fphone');
 function updateFormFields() {
   const val = subjectSel ? subjectSel.value : '';
   if (val === 'Request Details - AP4 Tech Park') {
-    fieldEmail.style.display = '';
-    fieldPhone.style.display = '';
+    fieldEmail.style.display = 'block';
+    fieldPhone.style.display = 'block';
     if (emailInput) emailInput.required = true;
     if (phoneInput) phoneInput.required = false;
   } else if (val === 'Request Callback - AP4 Tech Park') {
     fieldEmail.style.display = 'none';
-    fieldPhone.style.display = '';
+    fieldPhone.style.display = 'block';
     if (emailInput) { emailInput.required = false; emailInput.value = ''; }
     if (phoneInput) phoneInput.required = true;
   } else {
