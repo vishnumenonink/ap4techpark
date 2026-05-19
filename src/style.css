@@ -1676,6 +1676,86 @@ h3 em { font-style: italic; font-weight: 400; }
    FOOTER
    ============================================================ */
 /* Copyright bar */
+/* RERA block — inside contact left column */
+.rera-block {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+}
+.rera-block-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.rera-reg {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.rera-note {
+  font-size: 0.76rem;
+  color: rgba(255,255,255,0.60);
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+.rera-url {
+  font-size: 0.74rem;
+  color: var(--gold);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: opacity 0.2s;
+}
+.rera-url:hover { opacity: 0.75; }
+.rera-qr {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: white;
+  padding: 4px;
+}
+.rera-funded {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.01em;
+  margin-top: 4px;
+}
+.rera-promoters {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+}
+.rera-promoter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.rera-role {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.rera-logos {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.rera-logo {
+  height: 48px;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.80;
+}
+
 .site-copyright {
   background: var(--ink);
   padding: 18px max(24px, calc((100% - 1260px) / 2));
@@ -1769,4 +1849,7 @@ h3 em { font-style: italic; font-weight: 400; }
   .arrival-full    { height: 55vh; }
   .specs-grid      { grid-template-columns: 1fr 1fr; }
   .spec-item       { grid-column: span 1 !important; }
+  .rera-promoters  { flex-wrap: wrap; gap: 28px; }
+  .rera-logo       { height: 36px; max-width: 110px; }
+  .arrival-carousel-track { gap: 12px; }
 }
