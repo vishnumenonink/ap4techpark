@@ -779,6 +779,7 @@ h3 em { font-style: italic; font-weight: 400; }
 }
 .dist-note {
   margin-top: 28px;
+  margin-bottom: 48px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -1081,7 +1082,7 @@ h3 em { font-style: italic; font-weight: 400; }
 .specs-head h2 { color: var(--white); margin-top: 8px; }
 .specs-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   gap: 1px;
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.07);
@@ -1089,6 +1090,10 @@ h3 em { font-style: italic; font-weight: 400; }
   overflow: hidden;
   margin-bottom: 60px;
 }
+/* Row 1: 4 items × 3 cols = 12 (25% each) */
+.spec-item { grid-column: span 3; }
+/* Row 2: 3 items × 4 cols = 12 (33% each) — perfectly centred */
+.spec-item:nth-child(n+5) { grid-column: span 4; }
 .spec-item {
   display: flex;
   flex-direction: column;
@@ -1096,6 +1101,14 @@ h3 em { font-style: italic; font-weight: 400; }
   padding: 32px 28px;
   background: rgba(10,22,40,0.60);
   transition: background 0.3s;
+}
+.spec-icon {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+  display: block;
 }
 .spec-item:hover { background: rgba(192,154,91,0.08); }
 .spec-val {
@@ -1703,7 +1716,9 @@ h3 em { font-style: italic; font-weight: 400; }
   .overview-grid    { gap: 48px; }
   .stats-grid       { grid-template-columns: repeat(3, 1fr); }
   .stat-card:nth-child(3) { border-right: none; }
-  .specs-grid       { grid-template-columns: repeat(2, 1fr); }
+  .specs-grid       { grid-template-columns: repeat(4, 1fr); }
+  .spec-item        { grid-column: span 1 !important; }
+  .spec-item:nth-child(n+5) { grid-column: span 2 !important; }
   .amenity-panel-grid { gap: 48px; }
 }
 
@@ -1747,4 +1762,5 @@ h3 em { font-style: italic; font-weight: 400; }
   .sticky-call     { left: 16px; bottom: 24px; width: 46px; height: 46px; }
   .arrival-full    { height: 55vh; }
   .specs-grid      { grid-template-columns: 1fr 1fr; }
+  .spec-item       { grid-column: span 1 !important; }
 }
