@@ -368,41 +368,46 @@ startSlider();
 
   const slides  = [...track.querySelectorAll('.arrival-slide')];
   const countEl = document.getElementById('arrivalCount');
-  const VISIBLE = 3;
-  const GAP     = 20; // px — must match CSS gap value
   const TOTAL   = slides.length;
-  const MAX     = TOTAL - VISIBLE;
   let current   = 0;
   let aTimer;
 
-  // Slide width comes from CSS (calc((100% - 40px) / 3))
-  // We read it from the DOM so translateX is always pixel-perfect
+  // On mobile (≤680px) show 1 slide with no gap; desktop shows 3 with 20px gap
+  function isMobile()  { return window.innerWidth <= 680; }
+  function getGap()    { return isMobile() ? 0 : 20; }
+  function getMax()    { return Math.max(0, TOTAL - (isMobile() ? 1 : 3)); }
+
+  // Slide width comes from CSS; read from DOM so translateX is pixel-perfect
   function slideW() {
     return slides[0] ? slides[0].getBoundingClientRect().width : 0;
   }
 
   function applyPos(animated = true) {
+    const max = getMax();
+    if (current > max) current = max;
     if (!animated) {
       track.style.transition = 'none';
       track.getBoundingClientRect(); // force reflow
     }
     const w = slideW();
-    track.style.transform = w ? `translateX(-${current * (w + GAP)}px)` : '';
+    track.style.transform = w ? `translateX(-${current * (w + getGap())}px)` : '';
     if (!animated) track.style.transition = '';
     if (countEl) {
       countEl.textContent =
-        `${String(current + 1).padStart(2, '0')} / ${String(MAX + 1).padStart(2, '0')}`;
+        `${String(current + 1).padStart(2, '0')} / ${String(getMax() + 1).padStart(2, '0')}`;
     }
   }
 
   function aNext() {
-    if (current >= MAX) { current = 0; applyPos(false); return; }
+    const max = getMax();
+    if (current >= max) { current = 0; applyPos(false); return; }
     current++;
     applyPos(true);
   }
 
   function aPrev() {
-    if (current <= 0) { current = MAX; applyPos(false); return; }
+    const max = getMax();
+    if (current <= 0) { current = max; applyPos(false); return; }
     current--;
     applyPos(true);
   }
