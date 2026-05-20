@@ -425,6 +425,77 @@ startSlider();
 }());
 
 /* ============================================================
+   GALLERY LIGHTBOX
+   ============================================================ */
+(function () {
+  const lightbox     = document.getElementById('galleryLightbox');
+  const lbImg        = document.getElementById('lightboxImg');
+  const lbCounter    = document.getElementById('lightboxCounter');
+  const lbClose      = document.getElementById('lightboxClose');
+  const lbBackdrop   = document.getElementById('lightboxBackdrop');
+  const lbPrev       = document.getElementById('lightboxPrev');
+  const lbNext       = document.getElementById('lightboxNext');
+  if (!lightbox) return;
+
+  // Collect all gallery images
+  const galleryImgs = [...document.querySelectorAll('.g-item img')];
+  let current = 0;
+
+  function openLightbox(idx) {
+    current = idx;
+    lbImg.src = galleryImgs[current].src;
+    lbImg.alt = galleryImgs[current].alt;
+    lbCounter.textContent = `${current + 1} / ${galleryImgs.length}`;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => { lbImg.src = ''; }, 300);
+  }
+
+  function showNext() {
+    current = (current + 1) % galleryImgs.length;
+    lbImg.style.opacity = '0';
+    setTimeout(() => {
+      lbImg.src = galleryImgs[current].src;
+      lbImg.alt = galleryImgs[current].alt;
+      lbCounter.textContent = `${current + 1} / ${galleryImgs.length}`;
+      lbImg.style.opacity = '1';
+    }, 150);
+  }
+
+  function showPrev() {
+    current = (current - 1 + galleryImgs.length) % galleryImgs.length;
+    lbImg.style.opacity = '0';
+    setTimeout(() => {
+      lbImg.src = galleryImgs[current].src;
+      lbImg.alt = galleryImgs[current].alt;
+      lbCounter.textContent = `${current + 1} / ${galleryImgs.length}`;
+      lbImg.style.opacity = '1';
+    }, 150);
+  }
+
+  galleryImgs.forEach((img, idx) => {
+    img.addEventListener('click', () => openLightbox(idx));
+  });
+
+  lbClose.addEventListener('click', closeLightbox);
+  lbBackdrop.addEventListener('click', closeLightbox);
+  lbNext.addEventListener('click', showNext);
+  lbPrev.addEventListener('click', showPrev);
+
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') showNext();
+    if (e.key === 'ArrowLeft') showPrev();
+  });
+}());
+
+/* ============================================================
    VIDEO MODAL
    ============================================================ */
 const videoThumb   = document.getElementById('videoThumb');
