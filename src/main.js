@@ -567,7 +567,7 @@ function updateFormFields() {
 if (subjectSel) subjectSel.addEventListener('change', updateFormFields);
 
 if (form) {
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
 
     const name    = form.querySelector('[name="name"]').value.trim();
@@ -575,24 +575,46 @@ if (form) {
     const email   = emailInput ? emailInput.value.trim() : '';
     const phone   = phoneInput ? phoneInput.value.trim() : '';
 
-    const mailSubject = encodeURIComponent(subject);
-    const body = encodeURIComponent(
-      `Name: ${name}\nEnquiry: ${subject}${email ? '\nEmail: ' + email : ''}${phone ? '\nPhone: ' + phone : ''}`
-    );
-    window.location.href = `mailto:vishnu@inkmedia.in?subject=${mailSubject}&body=${body}`;
-
-    const btn = form.querySelector('.form-submit');
+    const btn  = form.querySelector('.form-submit');
     const orig = btn.textContent;
-    btn.textContent = 'Thank you, we\'ll be in touch shortly.';
+    btn.textContent = 'Sending…';
     btn.disabled = true;
-    btn.style.background = '#2e7d32';
-    setTimeout(() => {
-      btn.textContent = orig;
-      btn.disabled = false;
-      btn.style.background = '';
-      form.reset();
-      updateFormFields();
-    }, 4000);
+
+    try {
+      const res = await fetch('/api/submit-lead', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ name, email, phone, subject })
+      });
+
+      if (res.ok) {
+        btn.textContent = 'Thank you, we\'ll be in touch shortly.';
+        btn.style.background = '#2e7d32';
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.disabled = false;
+          btn.style.background = '';
+          form.reset();
+          updateFormFields();
+        }, 4000);
+      } else {
+        btn.textContent = 'Something went wrong. Please try again.';
+        btn.style.background = '#c0392b';
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.disabled = false;
+          btn.style.background = '';
+        }, 3000);
+      }
+    } catch (err) {
+      btn.textContent = 'Something went wrong. Please try again.';
+      btn.style.background = '#c0392b';
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.disabled = false;
+        btn.style.background = '';
+      }, 3000);
+    }
   });
 }
 
