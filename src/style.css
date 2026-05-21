@@ -2100,6 +2100,9 @@ h3 em { font-style: italic; font-weight: 400; }
     flex-shrink: 0;
   }
 
+  /* Hide specific badges on mobile */
+  .mobile-hide     { display: none !important; }
+
   /* Hero slider — show upper portion of image on portrait screens */
   .slide img       { object-position: center 15%; }
 
