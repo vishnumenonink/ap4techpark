@@ -242,19 +242,21 @@ gsap.to('.hero-bg img', {
 /* ============================================================
    SECTION TRANSITIONS — stagger children on entry
    ============================================================ */
-// Spec items
-gsap.from('.spec-item', {
-  y: 20,
-  opacity: 0,
-  duration: 0.6,
-  stagger: 0.06,
-  ease: 'power3.out',
-  scrollTrigger: {
-    trigger: '.specs-grid',
-    start: 'top 80%',
-    once: true,
-  },
-});
+// Spec items — desktop only (mobile uses reveal-up CSS class)
+if (window.innerWidth > 680) {
+  gsap.from('.spec-item', {
+    y: 20,
+    opacity: 0,
+    duration: 0.6,
+    stagger: 0.06,
+    ease: 'power3.out',
+    scrollTrigger: {
+      trigger: '.specs-grid',
+      start: 'top 80%',
+      once: true,
+    },
+  });
+}
 
 // Gallery items stagger
 gsap.from('.g-item', {
