@@ -77,6 +77,14 @@
       <div class="hero-stat-div"></div>
       <div class="hero-stat"><span class="hero-stat-num">IGBC</span><span class="hero-stat-label">Platinum Certified</span></div>
     </div>
+    <!-- Mobile-only badge bar -->
+    <div class="hero-badges-mobile">
+      <span class="hero-badge">Wing A &amp; B · OC Received</span>
+      <span class="hero-badge-dot">◆</span>
+      <span class="hero-badge">RERA Registered</span>
+      <span class="hero-badge-dot">◆</span>
+      <span class="hero-badge">IGBC Platinum</span>
+    </div>
   </section>
 
   <!-- TICKER -->
@@ -679,6 +687,36 @@
   <!-- COPYRIGHT -->
   <div class="site-copyright">
     <p>© 2025 Amar Pristine Landmarks LLP. All rights reserved. &nbsp;·&nbsp; Powered by <a href="https://inkmedia.in" target="_blank" rel="noopener" class="copyright-link">Ink Media</a></p>
+  </div>
+
+  <!-- STICKY ENQUIRY FORM -->
+  <div class="sticky-enquiry" id="stickyEnquiry">
+    <button class="sticky-enquiry-tab" id="stickyEnquiryToggle" aria-label="Open Enquiry Form">
+      <span>Enquire Now</span>
+    </button>
+    <div class="sticky-enquiry-panel" id="stickyEnquiryPanel">
+      <button class="sticky-enquiry-close" id="stickyEnquiryClose" aria-label="Close">✕</button>
+      <h4 class="sf-title">Schedule a Site Visit</h4>
+      <form class="sticky-form" id="stickyContactForm" novalidate>
+        <div class="sf-group">
+          <input type="text" name="sfname" placeholder="Full Name *" required />
+        </div>
+        <div class="sf-group">
+          <select id="sfsubject" name="sfsubject" required>
+            <option value="">I want to…</option>
+            <option value="Request Details - AP4 Tech Park">Request Details</option>
+            <option value="Request Callback - AP4 Tech Park">Request a Callback</option>
+          </select>
+        </div>
+        <div class="sf-group sf-conditional" id="sfieldEmail" style="display:none">
+          <input type="email" id="sfemail" name="sfemail" placeholder="Email *" />
+        </div>
+        <div class="sf-group sf-conditional" id="sfieldPhone" style="display:none">
+          <input type="tel" id="sfphone" name="sfphone" placeholder="Phone *" />
+        </div>
+        <button type="submit" class="sf-submit">Request a Visit →</button>
+      </form>
+    </div>
   </div>
 
   <!-- STICKY CALL BUTTON -->

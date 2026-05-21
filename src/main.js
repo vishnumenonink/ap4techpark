@@ -646,3 +646,106 @@ function highlightNav(id) {
       : 'rgba(255,255,255,0.65)';
   });
 }
+
+/* ============================================================
+   SCROLL REVEAL FALLBACK
+   Ensures elements already in view on load are never stuck invisible.
+   Also refreshes ScrollTrigger after fonts/images settle.
+   ============================================================ */
+window.addEventListener('load', () => {
+  // Force-reveal anything already in the viewport
+  document.querySelectorAll('.reveal-up, .reveal-scale').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.95) el.classList.add('is-visible');
+  });
+  // Recalculate all ScrollTrigger positions after full page load
+  ScrollTrigger.refresh(true);
+});
+
+/* ============================================================
+   STICKY ENQUIRY FORM
+   ============================================================ */
+(function () {
+  const wrap   = document.getElementById('stickyEnquiry');
+  const toggle = document.getElementById('stickyEnquiryToggle');
+  const close  = document.getElementById('stickyEnquiryClose');
+  const sForm  = document.getElementById('stickyContactForm');
+  const sSel   = document.getElementById('sfsubject');
+  const sfEmail = document.getElementById('sfieldEmail');
+  const sfPhone = document.getElementById('sfieldPhone');
+  const sfEmailInput = document.getElementById('sfemail');
+  const sfPhoneInput = document.getElementById('sfphone');
+
+  if (!wrap || !toggle) return;
+
+  toggle.addEventListener('click', () => wrap.classList.toggle('open'));
+  if (close) close.addEventListener('click', () => wrap.classList.remove('open'));
+
+  // Close on outside click
+  document.addEventListener('click', e => {
+    if (wrap.classList.contains('open') && !wrap.contains(e.target)) {
+      wrap.classList.remove('open');
+    }
+  });
+
+  function sfUpdate() {
+    const val = sSel ? sSel.value : '';
+    if (val === 'Request Details - AP4 Tech Park') {
+      if (sfEmail) sfEmail.style.display = 'block';
+      if (sfPhone) sfPhone.style.display = 'block';
+      if (sfEmailInput) sfEmailInput.required = true;
+      if (sfPhoneInput) sfPhoneInput.required = false;
+    } else if (val === 'Request Callback - AP4 Tech Park') {
+      if (sfEmail) sfEmail.style.display = 'none';
+      if (sfPhone) sfPhone.style.display = 'block';
+      if (sfEmailInput) { sfEmailInput.required = false; if(sfEmailInput) sfEmailInput.value = ''; }
+      if (sfPhoneInput) sfPhoneInput.required = true;
+    } else {
+      if (sfEmail) sfEmail.style.display = 'none';
+      if (sfPhone) sfPhone.style.display = 'none';
+      if (sfEmailInput) sfEmailInput.required = false;
+      if (sfPhoneInput) sfPhoneInput.required = false;
+    }
+  }
+  if (sSel) sSel.addEventListener('change', sfUpdate);
+
+  if (sForm) {
+    sForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const name    = sForm.querySelector('[name="sfname"]').value.trim();
+      const subject = sSel ? sSel.value : 'AP4 Tech Park Enquiry';
+      const email   = sfEmailInput ? sfEmailInput.value.trim() : '';
+      const phone   = sfPhoneInput ? sfPhoneInput.value.trim() : '';
+
+      const btn  = sForm.querySelector('.sf-submit');
+      const orig = btn.textContent;
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/submit-lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, phone, subject })
+        });
+        if (res.ok) {
+          btn.textContent = 'Thank you!';
+          btn.style.background = '#2e7d32';
+          setTimeout(() => {
+            btn.textContent = orig; btn.disabled = false; btn.style.background = '';
+            sForm.reset(); sfUpdate();
+            wrap.classList.remove('open');
+          }, 3000);
+        } else {
+          btn.textContent = 'Try again';
+          btn.style.background = '#c0392b';
+          setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; }, 3000);
+        }
+      } catch {
+        btn.textContent = 'Try again';
+        btn.style.background = '#c0392b';
+        setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; }, 3000);
+      }
+    });
+  }
+}());
