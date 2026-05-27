@@ -535,12 +535,12 @@ h3 em { font-style: italic; font-weight: 400; }
   position: absolute;
   inset: 0;
 }
-/* Date label — sits above the stats bar, bottom right */
+/* Date label — sits above the stats bar, bottom left */
 .hero-bg::after {
   content: "Actual Image - As on May\2019 2026";
   position: absolute;
   bottom: 80px; /* above the desktop stats bar (~76px tall) */
-  right: 20px;
+  left: 20px;
   font-family: var(--sans);
   font-size: 0.62rem;
   font-weight: 600;
