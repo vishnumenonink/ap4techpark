@@ -535,6 +535,26 @@ h3 em { font-style: italic; font-weight: 400; }
   position: absolute;
   inset: 0;
 }
+/* Date label — sits above the stats bar, bottom right */
+.hero-bg::after {
+  content: "Actual Image - As on May\2019 2026";
+  position: absolute;
+  bottom: 80px; /* above the desktop stats bar (~76px tall) */
+  right: 20px;
+  font-family: var(--sans);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.82);
+  background: rgba(6,14,26,0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 4px 10px;
+  border-radius: 999px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 2;
+}
 .hero-bg img {
   object-position: center 30%;
 }
@@ -2166,6 +2186,9 @@ h3 em { font-style: italic; font-weight: 400; }
     color: var(--gold);
     flex-shrink: 0;
   }
+
+  /* Date label — lower offset on mobile (shorter badge bar) */
+  .hero-bg::after  { bottom: 52px; }
 
   /* Hide specific badges on mobile */
   .mobile-hide     { display: none !important; }
