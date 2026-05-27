@@ -605,6 +605,11 @@ h3 em { font-style: italic; font-weight: 400; }
   gap: 12px;
   z-index: 1;
 }
+/* Hide sticky call button on desktop */
+@media (min-width: 681px) {
+  .sticky-call { display: none; }
+}
+
 @media (min-width: 1308px) {
   .hero-scroll-hint { right: calc((100% - 1260px) / 2); }
 }
