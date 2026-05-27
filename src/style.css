@@ -951,7 +951,7 @@ h3 em { font-style: italic; font-weight: 400; }
 .arrival-caption .body-text { color: rgba(255,255,255,0.70); font-size: 0.98rem; line-height: 1.75; }
 /* Date label on background image — bottom right */
 .arrival-full::after {
-  content: "Actual Image - As on May\2019 2026";
+  content: "Actual Image - May\2019 2026";
   position: absolute;
   bottom: 14px;
   right: 16px;
@@ -1192,7 +1192,7 @@ h3 em { font-style: italic; font-weight: 400; }
 }
 /* Actual image date label — bottom left of each card */
 .deck-card::after {
-  content: "Actual Image \2013  As on May\2019 2026";
+  content: "Actual Images - May\2019 2026";
   position: absolute;
   bottom: 16px;
   left: 16px;
@@ -1224,16 +1224,10 @@ h3 em { font-style: italic; font-weight: 400; }
   pointer-events: none;
 }
 .deck-count {
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--ink-soft);
-  letter-spacing: 0.06em;
+  display: none;
 }
 .deck-tap {
-  font-size: 0.72rem;
-  color: var(--gold);
-  letter-spacing: 0.08em;
-  font-weight: 400;
+  display: none;
 }
 
 /* ============================================================
@@ -1477,6 +1471,8 @@ h3 em { font-style: italic; font-weight: 400; }
   margin-bottom: 3px;
 }
 .tcard-role { font-size: 0.78rem; color: var(--ink-soft); line-height: 1.4; }
+.tcard-designation { font-size: 0.78rem; color: var(--ink-soft); line-height: 1.4; margin: 0; }
+.tcard-firm { font-size: 0.78rem; color: var(--ink-soft); line-height: 1.4; margin: 0; }
 
 /* ============================================================
    PRESS & MEDIA
@@ -2192,4 +2188,32 @@ h3 em { font-style: italic; font-weight: 400; }
   .spec-item       { grid-column: span 1 !important; }
   .rera-promoters  { flex-wrap: wrap; gap: 28px; }
   .rera-logo       { height: 36px; max-width: 110px; }
+
+  /* Testimonials heading — 3 lines on mobile */
+  .testimonials-head h2 em { font-style: italic; }
+  .testimonials-head h2 br { display: block; }
+
+  /* Testimonial author — logo full-width row, then name/designation/firm each on own line */
+  .tcard-author {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .tcard-logo {
+    width: 100%;
+    max-width: 120px;
+    height: auto;
+    max-height: 40px;
+    object-fit: contain;
+  }
+  .tcard-author > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .tcard-name,
+  .tcard-designation,
+  .tcard-firm {
+    display: block;
+  }
 }
