@@ -36,9 +36,9 @@ export default async function handler(req, res) {
     tenantId:            '984'
   };
 
-  // Run CRM + email in parallel, wait for both before responding.
-  // allSettled means email failure never blocks the CRM or the redirect.
-  const [crmResult, emailResult] = await Promise.allSettled([
+  // Run CRM + email + Sheets in parallel; allSettled means no single failure
+  // blocks the others or the redirect.
+  const [crmResult, emailResult, sheetsResult] = await Promise.allSettled([
     fetch(
       'https://fvintegration.farvisioncloud.com/LeadSync/api/SyncLeadsV2/RawLeads',
       {
@@ -50,11 +50,33 @@ export default async function handler(req, res) {
 
     sendEmail({ name, email, phone, subject })
       .catch(err => { console.error('Resend email failed:', err.message); }),
+
+    appendToSheet({ name, email, phone, subject })
+      .catch(err => { console.error('Sheets error:', err.message); }),
   ]);
 
-  console.log('CRM:', crmResult.status, '| Email:', emailResult.status);
+  console.log('CRM:', crmResult.status, '| Email:', emailResult.status, '| Sheets:', sheetsResult.status);
 
   return res.status(200).json({ success: true });
+}
+
+async function appendToSheet({ name, email, phone, subject }) {
+  const WEBHOOK = process.env.GOOGLE_SHEET_WEBHOOK;
+  if (!WEBHOOK) {
+    console.log('GOOGLE_SHEET_WEBHOOK not set — skipping Sheets');
+    return;
+  }
+
+  const response = await fetch(WEBHOOK, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ name, email, phone, subject }),
+  });
+
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`Sheets webhook error: ${err}`);
+  }
 }
 
 async function sendEmail({ name, email, phone, subject }) {
