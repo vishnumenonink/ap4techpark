@@ -38,52 +38,57 @@ export default async function handler(req, res) {
     tenantId:            '984'
   };
 
-  // Fire CRM + email in parallel
-  const crmPromise = fetch(
-    'https://fvintegration.farvisioncloud.com/LeadSync/api/SyncLeadsV2/RawLeads',
-    {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify(payload)
-    }
-  ).then(r => r.text()).catch(err => `CRM error: ${err.message}`);
-
-  const emailPromise = (async () => {
-    const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
-    if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) return 'Email skipped: SMTP env vars not set';
-
-    const transporter = nodemailer.createTransport({
-      host: SMTP_HOST,
-      port: parseInt(SMTP_PORT || '587'),
-      secure: parseInt(SMTP_PORT || '587') === 465,
-      auth: { user: SMTP_USER, pass: SMTP_PASS },
-    });
-
-    const lines = [
-      `Name:    ${name || '-'}`,
-      `Enquiry: ${subject || '-'}`,
-      email ? `Email:   ${email}` : null,
-      phone ? `Phone:   ${phone}` : null,
-      ``,
-      `Submitted: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST`,
-    ].filter(l => l !== null).join('\n');
-
-    await transporter.sendMail({
-      from:    `"AP4 Tech Park" <${SMTP_USER}>`,
-      to:      'vishnu@inkmedia.in',
-      subject: 'AP4 Tech Park Landing Page Enquiry',
-      text:    lines,
-      html:    `<pre style="font-family:sans-serif;font-size:14px;line-height:1.6">${lines}</pre>`,
-    });
-
-    return 'Email sent';
-  })();
-
+  // ── 1. CRM submission (critical path) ──────────────────────────
   try {
-    const [crmResult, emailResult] = await Promise.all([crmPromise, emailPromise]);
-    return res.status(200).json({ success: true, crm: crmResult, email: emailResult });
+    await fetch(
+      'https://fvintegration.farvisioncloud.com/LeadSync/api/SyncLeadsV2/RawLeads',
+      {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload)
+      }
+    );
   } catch (err) {
-    console.error('Submit error:', err);
-    return res.status(500).json({ success: false, error: err.message });
+    console.error('CRM error:', err.message);
+    // Still continue — don't block the user for a CRM hiccup
   }
+
+  // ── 2. Email notification (best-effort, non-blocking) ──────────
+  sendEmail({ name, email, phone, subject }).catch(err =>
+    console.error('Email notification failed:', err.message)
+  );
+
+  // ── 3. Return success immediately ──────────────────────────────
+  return res.status(200).json({ success: true });
+}
+
+async function sendEmail({ name, email, phone, subject }) {
+  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
+  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) return;
+
+  const transporter = nodemailer.createTransport({
+    host:   SMTP_HOST,
+    port:   parseInt(SMTP_PORT || '587'),
+    secure: parseInt(SMTP_PORT || '587') === 465,
+    requireTLS: true,
+    auth: { user: SMTP_USER, pass: SMTP_PASS },
+    tls:  { rejectUnauthorized: false },
+  });
+
+  const lines = [
+    `Name:    ${name    || '-'}`,
+    `Enquiry: ${subject || '-'}`,
+    email ? `Email:   ${email}` : null,
+    phone ? `Phone:   ${phone}` : null,
+    ``,
+    `Submitted: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST`,
+  ].filter(l => l !== null).join('\n');
+
+  await transporter.sendMail({
+    from:    `"AP4 Tech Park" <${SMTP_USER}>`,
+    to:      'vishnu@inkmedia.in',
+    subject: 'AP4 Tech Park Landing Page Enquiry',
+    text:    lines,
+    html:    `<pre style="font-family:sans-serif;font-size:14px;line-height:1.8">${lines}</pre>`,
+  });
 }
