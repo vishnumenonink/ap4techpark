@@ -493,6 +493,17 @@ h3 em { font-style: italic; font-weight: 400; }
   transition: background 0.2s, transform 0.2s !important;
 }
 .nav-cta:hover { background: var(--gold-light) !important; transform: translateY(-1px); }
+.nav-phone {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 700 !important;
+  font-size: 0.92rem !important;
+  color: var(--white) !important;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.nav-phone svg { color: var(--gold); flex-shrink: 0; }
 .nav-hamburger {
   display: none;
   flex-direction: column;
@@ -594,6 +605,11 @@ h3 em { font-style: italic; font-weight: 400; }
   gap: 12px;
   z-index: 1;
 }
+/* Hide sticky call button on desktop — phone number is in the nav */
+@media (min-width: 681px) {
+  .sticky-call { display: none; }
+}
+
 @media (min-width: 1308px) {
   .hero-scroll-hint { right: calc((100% - 1260px) / 2); }
 }
@@ -1890,6 +1906,64 @@ h3 em { font-style: italic; font-weight: 400; }
 }
 
 /* ============================================================
+   IMAGE DATE LABEL — "Actual Image · As on May 2026"
+   Applied via ::after on image containers
+   ============================================================ */
+.slide::after,
+.arrival-slide::after,
+.g-item::after,
+.contact-bg::after {
+  content: 'Actual Image · As on May 2026';
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  font-family: var(--sans);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.75);
+  background: rgba(6,14,26,0.52);
+  backdrop-filter: blur(4px);
+  padding: 3px 8px;
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 5;
+  white-space: nowrap;
+}
+/* Gallery — bolder/more visible */
+.g-item::after {
+  font-weight: 700;
+  color: rgba(255,255,255,0.92);
+  background: rgba(6,14,26,0.65);
+}
+/* Campus amenities deck-card — bottom LEFT (title is bottom right) */
+.deck-card::after {
+  content: 'Actual Image · As on May 2026';
+  position: absolute;
+  bottom: 32px; /* above the caption bar */
+  left: 10px;
+  right: auto;
+  font-family: var(--sans);
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.75);
+  background: rgba(6,14,26,0.52);
+  backdrop-filter: blur(4px);
+  padding: 3px 7px;
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 5;
+  white-space: nowrap;
+}
+/* Ensure containers are positioned for ::after to work */
+.slide,
+.arrival-slide,
+.g-item,
+.contact-bg,
+.deck-card { position: relative; }
+
+/* ============================================================
    STICKY ENQUIRY FORM
    ============================================================ */
 .sticky-enquiry {
@@ -2033,6 +2107,7 @@ h3 em { font-style: italic; font-weight: 400; }
 
 @media (max-width: 680px) {
   .section { padding: 72px 0; }
+  .nav-phone { display: none; }
   .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(10,22,40,0.97); backdrop-filter: blur(16px); padding: 24px; gap: 20px; border-top: 1px solid rgba(255,255,255,0.08); }
   .nav-links.open { display: flex; }
   .nav-hamburger { display: flex; }
