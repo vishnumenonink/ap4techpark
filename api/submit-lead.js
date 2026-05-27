@@ -1,5 +1,3 @@
-import nodemailer from 'nodemailer';
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -50,12 +48,11 @@ export default async function handler(req, res) {
     );
   } catch (err) {
     console.error('CRM error:', err.message);
-    // Still continue — don't block the user for a CRM hiccup
   }
 
-  // ── 2. Email notification (best-effort, non-blocking) ──────────
+  // ── 2. Email via Resend (best-effort, non-blocking) ─────────────
   sendEmail({ name, email, phone, subject }).catch(err =>
-    console.error('Email notification failed:', err.message)
+    console.error('Resend email failed:', err.message)
   );
 
   // ── 3. Return success immediately ──────────────────────────────
@@ -63,32 +60,43 @@ export default async function handler(req, res) {
 }
 
 async function sendEmail({ name, email, phone, subject }) {
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
-  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) return;
+  const RESEND_API_KEY = process.env.RESEND_API_KEY;
+  if (!RESEND_API_KEY) {
+    console.log('RESEND_API_KEY not set — skipping email');
+    return;
+  }
 
-  const transporter = nodemailer.createTransport({
-    host:   SMTP_HOST,
-    port:   parseInt(SMTP_PORT || '587'),
-    secure: parseInt(SMTP_PORT || '587') === 465,
-    requireTLS: true,
-    auth: { user: SMTP_USER, pass: SMTP_PASS },
-    tls:  { rejectUnauthorized: false },
+  const now = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+
+  const html = `
+    <div style="font-family:sans-serif;font-size:15px;line-height:1.8;color:#1a1a1a;max-width:480px">
+      <h2 style="margin:0 0 20px;font-size:18px;color:#1a1a1a">New Enquiry — AP4 Tech Park</h2>
+      <table style="width:100%;border-collapse:collapse">
+        <tr><td style="padding:8px 0;border-bottom:1px solid #eee;color:#666;width:110px">Name</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:500">${name || '-'}</td></tr>
+        <tr><td style="padding:8px 0;border-bottom:1px solid #eee;color:#666">Enquiry</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:500">${subject || '-'}</td></tr>
+        ${email ? `<tr><td style="padding:8px 0;border-bottom:1px solid #eee;color:#666">Email</td><td style="padding:8px 0;border-bottom:1px solid #eee">${email}</td></tr>` : ''}
+        ${phone ? `<tr><td style="padding:8px 0;border-bottom:1px solid #eee;color:#666">Phone</td><td style="padding:8px 0;border-bottom:1px solid #eee">${phone}</td></tr>` : ''}
+        <tr><td style="padding:8px 0;color:#666">Submitted</td><td style="padding:8px 0">${now} IST</td></tr>
+      </table>
+    </div>
+  `;
+
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from:    'AP4 Tech Park <onboarding@resend.dev>',
+      to:      'vishnu@inkmedia.in',
+      subject: 'AP4 Tech Park Landing Page Enquiry',
+      html,
+    }),
   });
 
-  const lines = [
-    `Name:    ${name    || '-'}`,
-    `Enquiry: ${subject || '-'}`,
-    email ? `Email:   ${email}` : null,
-    phone ? `Phone:   ${phone}` : null,
-    ``,
-    `Submitted: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST`,
-  ].filter(l => l !== null).join('\n');
-
-  await transporter.sendMail({
-    from:    `"AP4 Tech Park" <${SMTP_USER}>`,
-    to:      'vishnu@inkmedia.in',
-    subject: 'AP4 Tech Park Landing Page Enquiry',
-    text:    lines,
-    html:    `<pre style="font-family:sans-serif;font-size:14px;line-height:1.8">${lines}</pre>`,
-  });
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`Resend API error: ${err}`);
+  }
 }
