@@ -595,15 +595,7 @@ if (form) {
       });
 
       if (res.ok) {
-        btn.textContent = 'Thank you, we\'ll be in touch shortly.';
-        btn.style.background = '#2e7d32';
-        setTimeout(() => {
-          btn.textContent = orig;
-          btn.disabled = false;
-          btn.style.background = '';
-          form.reset();
-          updateFormFields();
-        }, 4000);
+        window.location.href = '/thank-you';
       } else {
         btn.textContent = 'Something went wrong. Please try again.';
         btn.style.background = '#c0392b';
@@ -731,13 +723,7 @@ window.addEventListener('load', () => {
           body: JSON.stringify({ name, email, phone, subject })
         });
         if (res.ok) {
-          btn.textContent = 'Thank you!';
-          btn.style.background = '#2e7d32';
-          setTimeout(() => {
-            btn.textContent = orig; btn.disabled = false; btn.style.background = '';
-            sForm.reset(); sfUpdate();
-            wrap.classList.remove('open');
-          }, 3000);
+          window.location.href = '/thank-you';
         } else {
           btn.textContent = 'Try again';
           btn.style.background = '#c0392b';
