@@ -36,26 +36,24 @@ export default async function handler(req, res) {
     tenantId:            '984'
   };
 
-  // ── 1. CRM submission (critical path) ──────────────────────────
-  try {
-    await fetch(
+  // Run CRM + email in parallel, wait for both before responding.
+  // allSettled means email failure never blocks the CRM or the redirect.
+  const [crmResult, emailResult] = await Promise.allSettled([
+    fetch(
       'https://fvintegration.farvisioncloud.com/LeadSync/api/SyncLeadsV2/RawLeads',
       {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify(payload)
       }
-    );
-  } catch (err) {
-    console.error('CRM error:', err.message);
-  }
+    ).catch(err => { console.error('CRM error:', err.message); }),
 
-  // ── 2. Email via Resend (best-effort, non-blocking) ─────────────
-  sendEmail({ name, email, phone, subject }).catch(err =>
-    console.error('Resend email failed:', err.message)
-  );
+    sendEmail({ name, email, phone, subject })
+      .catch(err => { console.error('Resend email failed:', err.message); }),
+  ]);
 
-  // ── 3. Return success immediately ──────────────────────────────
+  console.log('CRM:', crmResult.status, '| Email:', emailResult.status);
+
   return res.status(200).json({ success: true });
 }
 
