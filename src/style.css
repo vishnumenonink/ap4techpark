@@ -925,6 +925,14 @@ h3 em { font-style: italic; font-weight: 400; }
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
+.dist-disclaimer {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.28);
+  line-height: 1.5;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
 
 /* ============================================================
    ARRIVAL EXPERIENCE
