@@ -1291,21 +1291,23 @@ h3 em { font-style: italic; font-weight: 400; }
 .cert-card {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
   background: rgba(192,154,91,0.08);
   border: 1px solid rgba(192,154,91,0.20);
   border-radius: var(--r-md);
-  padding: 32px 36px;
+  padding: 40px 36px;
 }
 .cert-logo {
-  height: 64px;
+  height: 100px;
   width: auto;
-  max-width: 160px;
+  max-width: 220px;
   object-fit: contain;
   display: block;
 }
 .cert-logo--wired {
-  height: 52px;
+  height: 80px;
 }
 .cert-title {
   font-family: var(--serif);
