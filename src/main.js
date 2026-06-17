@@ -503,6 +503,43 @@ startSlider();
 }());
 
 /* ============================================================
+   CERTIFICATE LIGHTBOX (reuses gallery lightbox)
+   ============================================================ */
+(function () {
+  const lightbox  = document.getElementById('galleryLightbox');
+  const lbImg     = document.getElementById('lightboxImg');
+  const lbCounter = document.getElementById('lightboxCounter');
+  const lbPrev    = document.getElementById('lightboxPrev');
+  const lbNext    = document.getElementById('lightboxNext');
+  if (!lightbox) return;
+
+  document.querySelectorAll('.cert-link').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      lbImg.src = link.href;
+      lbImg.alt = link.dataset.caption || '';
+      // Hide nav controls — single image
+      lbCounter.style.display = 'none';
+      lbPrev.style.display    = 'none';
+      lbNext.style.display    = 'none';
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  // Restore nav controls when lightbox closes (gallery uses them)
+  const lbClose    = document.getElementById('lightboxClose');
+  const lbBackdrop = document.getElementById('lightboxBackdrop');
+  function restoreNav() {
+    lbCounter.style.display = '';
+    lbPrev.style.display    = '';
+    lbNext.style.display    = '';
+  }
+  lbClose.addEventListener('click',    restoreNav);
+  lbBackdrop.addEventListener('click', restoreNav);
+}());
+
+/* ============================================================
    VIDEO MODAL
    ============================================================ */
 const videoThumb   = document.getElementById('videoThumb');

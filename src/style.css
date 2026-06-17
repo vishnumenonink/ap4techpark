@@ -1283,47 +1283,55 @@ h3 em { font-style: italic; font-weight: 400; }
   color: rgba(255,255,255,0.55);
   line-height: 1.5;
 }
-.igbc-row {
+.cert-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.cert-card {
   display: flex;
-  align-items: center;
-  gap: 40px;
+  flex-direction: column;
+  gap: 10px;
   background: rgba(192,154,91,0.08);
   border: 1px solid rgba(192,154,91,0.20);
   border-radius: var(--r-md);
   padding: 32px 36px;
 }
-.igbc-badge {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-shrink: 0;
-}
-.igbc-logo {
+.cert-logo {
   height: 64px;
   width: auto;
+  max-width: 160px;
   object-fit: contain;
   display: block;
-  flex-shrink: 0;
 }
-.igbc-title {
+.cert-logo--wired {
+  height: 52px;
+}
+.cert-title {
   font-family: var(--serif);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 500;
   color: var(--gold-light);
-  margin-bottom: 4px;
+  margin: 0;
 }
-.igbc-sub {
+.cert-sub {
   font-size: 0.78rem;
   color: rgba(255,255,255,0.45);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  margin: 0;
 }
-.igbc-text {
-  font-size: 0.92rem;
-  line-height: 1.75;
-  color: rgba(255,255,255,0.60);
-  border-left: 1px solid rgba(255,255,255,0.10);
-  padding-left: 40px;
+.cert-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.80rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  cursor: pointer;
 }
+.cert-link:hover { color: var(--gold-light); }
 
 /* ============================================================
    GALLERY
@@ -2094,8 +2102,8 @@ h3 em { font-style: italic; font-weight: 400; }
   .hero-bottom-bar    { flex-wrap: wrap; padding: 16px; gap: 4px; }
   .hero-stat          { padding: 10px 20px; }
   .hero-stat-div      { display: none; }
-  .igbc-row           { flex-direction: column; gap: 24px; }
-  .igbc-text          { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.10); padding-top: 24px; }
+  .cert-grid          { grid-template-columns: 1fr; }
+  .cert-card          { padding: 24px 20px; }
   /* Amenity — show image carousel above copy on mobile */
   .card-deck          { order: -1; }
 }
