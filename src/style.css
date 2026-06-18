@@ -695,16 +695,37 @@ h3 em { font-style: italic; font-weight: 400; }
   text-transform: uppercase;
   color: rgba(255,255,255,0.90);
 }
+.hero-stat--cert {
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+}
 .hero-stat-logo {
-  height: 36px;
+  height: 52px;
   width: auto;
-  max-width: 110px;
+  max-width: 52px;
   object-fit: contain;
+  flex-shrink: 0;
   display: block;
   filter: brightness(0) invert(1);
 }
 .hero-stat-logo--wired {
-  height: 28px;
+  height: 44px;
+  max-width: 44px;
+}
+.hero-stat-cert-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+.hero-stat-cert-title {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 .hero-stat-div {
   width: 1px;
