@@ -1088,28 +1088,27 @@ h3 em { font-style: italic; font-weight: 400; }
 .amenity-tabs {
   display: flex;
   gap: 0;
-  border: 1px solid var(--line);
   border-radius: var(--r-xl);
   padding: 6px;
   width: fit-content;
   margin: 0 auto 56px;
-  background: var(--white);
+  background: var(--ink);
 }
 .amenity-tab {
   padding: 12px 28px;
   border-radius: 999px;
   font-size: 0.88rem;
   font-weight: 500;
-  color: var(--ink);
+  color: rgba(255,255,255,0.55);
   transition: all 0.3s var(--ease-out-expo);
   letter-spacing: 0.02em;
 }
 .amenity-tab.active {
-  background: var(--ink);
-  color: var(--white);
+  background: var(--white);
+  color: var(--ink);
   box-shadow: var(--shadow-soft);
 }
-.amenity-tab:hover:not(.active) { color: var(--gold); }
+.amenity-tab:hover:not(.active) { color: rgba(255,255,255,0.90); }
 
 .amenity-panel { display: none; }
 .amenity-panel.active { display: block; }
