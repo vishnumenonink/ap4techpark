@@ -670,8 +670,7 @@ h3 em { font-style: italic; font-weight: 400; }
   align-items: center;
   justify-content: center;
   gap: 0;
-  background: rgba(6,14,26,0.72);
-  backdrop-filter: blur(12px);
+  background: rgba(6,14,26,0.88);
   border-top: 1px solid rgba(255,255,255,0.08);
   padding: 20px 0;
 }
