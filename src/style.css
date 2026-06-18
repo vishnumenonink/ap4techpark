@@ -1099,7 +1099,7 @@ h3 em { font-style: italic; font-weight: 400; }
   border-radius: 999px;
   font-size: 0.88rem;
   font-weight: 500;
-  color: rgba(255,255,255,0.55);
+  color: var(--white);
   transition: all 0.3s var(--ease-out-expo);
   letter-spacing: 0.02em;
 }
