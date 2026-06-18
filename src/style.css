@@ -686,7 +686,7 @@ h3 em { font-style: italic; font-weight: 400; }
   font-family: var(--serif);
   font-size: clamp(1.4rem, 2.5vw, 2rem);
   font-weight: 600;
-  color: var(--white);
+  color: var(--gold-light);
   letter-spacing: -0.03em;
 }
 .hero-stat-label {
@@ -694,6 +694,17 @@ h3 em { font-style: italic; font-weight: 400; }
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(255,255,255,0.90);
+}
+.hero-stat-logo {
+  height: 36px;
+  width: auto;
+  max-width: 110px;
+  object-fit: contain;
+  display: block;
+  filter: brightness(0) invert(1);
+}
+.hero-stat-logo--wired {
+  height: 28px;
 }
 .hero-stat-div {
   width: 1px;
