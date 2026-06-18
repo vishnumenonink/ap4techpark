@@ -701,31 +701,23 @@ h3 em { font-style: italic; font-weight: 400; }
   gap: 14px;
 }
 .hero-stat-logo {
-  height: 52px;
+  height: 56px;
   width: auto;
-  max-width: 52px;
   object-fit: contain;
   flex-shrink: 0;
   display: block;
-  filter: brightness(0) invert(1);
 }
 .hero-stat-logo--wired {
-  height: 44px;
-  max-width: 44px;
-}
-.hero-stat-cert-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  text-align: left;
+  height: 46px;
 }
 .hero-stat-cert-title {
-  font-family: var(--serif);
-  font-size: 1rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  color: var(--gold-light);
-  letter-spacing: -0.01em;
-  line-height: 1.2;
+  color: var(--white);
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+  text-align: left;
+  text-transform: uppercase;
 }
 .hero-stat-div {
   width: 1px;
