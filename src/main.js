@@ -84,20 +84,37 @@ const deckInstances = {};
 function initDeck(deckEl) {
   const cards = [...deckEl.querySelectorAll('.deck-card')];
   const total = cards.length;
-  const countEl = deckEl.querySelector('.deck-count');
   let current = 0;
   let timer = null;
+
+  // Inject prev / next arrow buttons
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'deck-arrow deck-arrow--prev';
+  prevBtn.setAttribute('aria-label', 'Previous');
+  prevBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>`;
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'deck-arrow deck-arrow--next';
+  nextBtn.setAttribute('aria-label', 'Next');
+  nextBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>`;
+
+  deckEl.appendChild(prevBtn);
+  deckEl.appendChild(nextBtn);
 
   function setPositions() {
     cards.forEach((card, i) => {
       const pos = (i - current + total) % total;
       card.dataset.pos = String(Math.min(pos, 3));
     });
-    if (countEl) countEl.textContent = `${current + 1} / ${total}`;
   }
 
   function advance() {
     current = (current + 1) % total;
+    setPositions();
+  }
+
+  function goBack() {
+    current = (current - 1 + total) % total;
     setPositions();
   }
 
@@ -110,11 +127,29 @@ function initDeck(deckEl) {
     if (timer) { clearInterval(timer); timer = null; }
   }
 
-  deckEl.addEventListener('click', () => {
+  // Arrow clicks — navigate deck
+  nextBtn.addEventListener('click', e => {
+    e.stopPropagation();
     advance();
     stopTimer();
     startTimer();
   });
+  prevBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    goBack();
+    stopTimer();
+    startTimer();
+  });
+
+  // Front card click — open amenity lightbox
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      if (card.dataset.pos === '0') {
+        openAmenityLightbox(cards, current);
+      }
+    });
+  });
+
   deckEl.addEventListener('mouseenter', stopTimer);
   deckEl.addEventListener('mouseleave', startTimer);
 
@@ -499,6 +534,69 @@ startSlider();
     if (e.key === 'Escape') closeLightbox();
     if (e.key === 'ArrowRight') showNext();
     if (e.key === 'ArrowLeft') showPrev();
+  });
+}());
+
+/* ============================================================
+   AMENITY LIGHTBOX
+   ============================================================ */
+(function () {
+  const lightbox = document.getElementById('amenityLightbox');
+  const lbImg     = document.getElementById('amenityLbImg');
+  const lbCaption = document.getElementById('amenityLbCaption');
+  const lbCounter = document.getElementById('amenityLbCounter');
+  const lbClose   = document.getElementById('amenityLbClose');
+  const lbBackdrop= document.getElementById('amenityLbBackdrop');
+  const lbPrev    = document.getElementById('amenityLbPrev');
+  const lbNext    = document.getElementById('amenityLbNext');
+  if (!lightbox) return;
+
+  let imgs = [];
+  let cur  = 0;
+
+  function show(idx) {
+    cur = (idx + imgs.length) % imgs.length;
+    lbImg.style.opacity = '0';
+    setTimeout(() => {
+      lbImg.src = imgs[cur].src;
+      lbImg.alt = imgs[cur].alt;
+      lbCaption.textContent = imgs[cur].caption;
+      lbCounter.textContent = `${cur + 1} / ${imgs.length}`;
+      lbImg.style.opacity = '1';
+    }, cur === 0 ? 0 : 150);
+  }
+
+  window.openAmenityLightbox = function(cards, startIdx) {
+    imgs = cards.map(card => ({
+      src:     card.querySelector('img').src,
+      alt:     card.querySelector('img').alt,
+      caption: (card.querySelector('.deck-caption') || {}).textContent || '',
+    }));
+    cur = startIdx;
+    lbImg.style.opacity = '1';
+    lbImg.src = imgs[cur].src;
+    lbImg.alt = imgs[cur].alt;
+    lbCaption.textContent = imgs[cur].caption;
+    lbCounter.textContent = `${cur + 1} / ${imgs.length}`;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
+  function close() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => { lbImg.src = ''; lbCaption.textContent = ''; }, 300);
+  }
+
+  lbNext.addEventListener('click',    () => show(cur + 1));
+  lbPrev.addEventListener('click',    () => show(cur - 1));
+  lbClose.addEventListener('click',   close);
+  lbBackdrop.addEventListener('click',close);
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape')     close();
+    if (e.key === 'ArrowRight') show(cur + 1);
+    if (e.key === 'ArrowLeft')  show(cur - 1);
   });
 }());
 

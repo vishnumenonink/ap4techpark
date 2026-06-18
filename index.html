@@ -762,6 +762,23 @@
     </svg>
   </a>
 
+  <!-- AMENITY LIGHTBOX -->
+  <div class="lightbox" id="amenityLightbox" role="dialog" aria-modal="true" aria-label="Amenity image">
+    <div class="lightbox-backdrop" id="amenityLbBackdrop"></div>
+    <button class="lightbox-close" id="amenityLbClose" aria-label="Close">✕</button>
+    <button class="lightbox-arrow lightbox-prev" id="amenityLbPrev" aria-label="Previous">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="lightbox-img-wrap">
+      <img id="amenityLbImg" src="" alt="" />
+      <div class="lightbox-caption" id="amenityLbCaption"></div>
+    </div>
+    <button class="lightbox-arrow lightbox-next" id="amenityLbNext" aria-label="Next">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+    <div class="lightbox-counter" id="amenityLbCounter"></div>
+  </div>
+
   <!-- GALLERY LIGHTBOX -->
   <div class="lightbox" id="galleryLightbox" role="dialog" aria-modal="true" aria-label="Gallery image">
     <div class="lightbox-backdrop" id="lightboxBackdrop"></div>

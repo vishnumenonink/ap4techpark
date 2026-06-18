@@ -370,8 +370,29 @@ h3 em { font-style: italic; font-weight: 400; }
   letter-spacing: 0.10em;
   color: rgba(255,255,255,0.45);
 }
+/* Amenity lightbox caption */
+.lightbox-caption {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(6,14,26,0.60);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: rgba(255,255,255,0.85);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+  pointer-events: none;
+}
 /* Make gallery images show pointer cursor */
 .g-item img { cursor: zoom-in; }
+/* Make deck front card show zoom cursor */
+.deck-card[data-pos="0"] { cursor: zoom-in; }
 
 .video-modal {
   position: fixed;
@@ -1180,6 +1201,29 @@ h3 em { font-style: italic; font-weight: 400; }
   z-index: 7;
   pointer-events: none;
 }
+/* Deck navigation arrows */
+.deck-arrow {
+  position: absolute;
+  bottom: 20px;
+  z-index: 20;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(6,14,26,0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.deck-arrow:hover { background: rgba(192,154,91,0.85); }
+.deck-arrow--prev { left: 16px; }
+.deck-arrow--next { left: 60px; }
+
 /* Caption — bottom right of each card */
 .deck-caption {
   position: absolute;
