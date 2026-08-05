@@ -79,14 +79,20 @@
       text-align: center;
     }
 
+    /* ── EVENT HEADER (logos + title grouped together) ── */
+    .event-header {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 14px;
+    }
+
     /* ── LOGOS ── */
     .logo-group {
       display: flex;
       flex-direction: column;
       align-items: stretch;
       gap: 8px;
-      width: 100%;
-      max-width: 440px;
     }
     /* Grid: equal columns either side of the divider */
     .logos {
@@ -298,7 +304,6 @@
       .logo-fm  { height: 24px; }
       .logo-divider { height: 26px; }
       .logos { column-gap: 16px; }
-      .logo-group { max-width: 300px; }
       .title { font-size: 1.3rem; }
       .form-wrap { padding: 18px 18px 16px; }
       .pills { gap: 5px; }
@@ -319,22 +324,23 @@
 
     <div class="content">
 
-      <!-- LOGOS + PRESENTS -->
-      <div class="logo-group">
-        <div class="logos">
-          <div class="logo-ap4-wrap">
-            <a href="/"><img src="/images/AP4-Logo-White.png" alt="AP4 Tech Park" class="logo-ap4" /></a>
+      <!-- LOGO GROUP + TITLE (grouped so logos align to title width) -->
+      <div class="event-header">
+        <div class="logo-group">
+          <div class="logos">
+            <div class="logo-ap4-wrap">
+              <a href="/"><img src="/images/AP4-Logo-White.png" alt="AP4 Tech Park" class="logo-ap4" /></a>
+            </div>
+            <div class="logo-divider"></div>
+            <div class="logo-fm-wrap">
+              <img src="/images/FM-Logo.png" alt="FM GlobalNet" class="logo-fm" />
+            </div>
           </div>
-          <div class="logo-divider"></div>
-          <div class="logo-fm-wrap">
-            <img src="/images/FM-Logo.png" alt="FM GlobalNet" class="logo-fm" />
-          </div>
+          <p class="presents">Presents</p>
         </div>
-        <p class="presents">Presents</p>
-      </div>
 
-      <!-- TITLE -->
-      <h1 class="title">Badminton &amp; Squash Tournament</h1>
+        <h1 class="title">Badminton &amp; Squash Tournament</h1>
+      </div>
 
       <!-- EVENT META -->
       <div class="pills">
