@@ -58,10 +58,10 @@
       inset: 0;
       background: linear-gradient(
         to bottom,
-        rgba(6,14,26,0.80) 0%,
-        rgba(6,14,26,0.58) 35%,
-        rgba(6,14,26,0.80) 70%,
-        rgba(6,14,26,0.96) 100%
+        rgba(6,14,26,0.88) 0%,
+        rgba(6,14,26,0.78) 35%,
+        rgba(6,14,26,0.88) 70%,
+        rgba(6,14,26,0.97) 100%
       );
     }
 
@@ -103,7 +103,7 @@
       width: 1px;
       height: 44px;
       flex-shrink: 0;
-      background: rgba(255,255,255,0.20);
+      background: rgba(255,255,255,0.45);
     }
 
     /* ── PRESENTS — anchored to the centre of the divider line ── */
@@ -141,12 +141,12 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.22);
       border-radius: 999px;
       padding: 6px 14px;
       font-size: 0.80rem;
-      color: rgba(255,255,255,0.78);
+      color: #ffffff;
     }
     .pill svg { color: var(--gold); flex-shrink: 0; }
 
@@ -154,8 +154,8 @@
     .form-wrap {
       width: 100%;
       max-width: 460px;
-      background: rgba(10,20,38,0.70);
-      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(6,14,26,0.88);
+      border: 1px solid rgba(255,255,255,0.18);
       border-radius: 16px;
       padding: 22px 26px 20px;
       backdrop-filter: blur(14px);
@@ -167,12 +167,12 @@
       font-family: var(--serif);
       font-size: 1.25rem;
       font-weight: 500;
-      color: var(--white);
+      color: #ffffff;
       margin-bottom: 2px;
     }
     .form-sub {
       font-size: 0.78rem;
-      color: var(--softer);
+      color: rgba(255,255,255,0.72);
       margin-bottom: 14px;
     }
 
@@ -182,19 +182,19 @@
       font-size: 0.70rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.80);
       margin-bottom: 4px;
     }
     .field input,
     .field select {
       width: 100%;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.22);
       border-radius: 8px;
       padding: 9px 13px;
       font-size: 0.88rem;
       font-family: var(--sans);
-      color: var(--white);
+      color: #ffffff;
       outline: none;
       transition: border-color 0.2s, background 0.2s;
       -webkit-appearance: none;
@@ -207,7 +207,7 @@
       padding-right: 38px;
       cursor: pointer;
     }
-    .field input::placeholder { color: rgba(255,255,255,0.25); }
+    .field input::placeholder { color: rgba(255,255,255,0.45); }
     .field input:focus,
     .field select:focus {
       border-color: rgba(184,150,62,0.50);
@@ -276,8 +276,8 @@
       text-align: center;
       padding: 8px;
       font-size: 0.68rem;
-      color: rgba(255,255,255,0.22);
-      border-top: 1px solid rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.50);
+      border-top: 1px solid rgba(255,255,255,0.10);
       flex-shrink: 0;
     }
     footer a { color: rgba(255,255,255,0.32); text-decoration: none; }
