@@ -89,32 +89,30 @@
 
     /* ── LOGOS ── */
     .logo-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
+      padding-bottom: 22px; /* room for absolutely-positioned Presents */
     }
     .logos {
       display: flex;
       align-items: center;
       gap: 28px;
     }
-    .logo-ap4-wrap,
-    .logo-fm-wrap {
-      display: flex;
-      align-items: center;
-    }
     .logo-ap4 { height: 48px; width: auto; }
     .logo-fm  { height: 36px; width: auto; }
     .logo-divider {
+      position: relative;
       width: 1px;
       height: 44px;
       flex-shrink: 0;
       background: rgba(255,255,255,0.20);
     }
 
-    /* ── PRESENTS ── */
+    /* ── PRESENTS — anchored to the centre of the divider line ── */
     .presents {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
       font-size: 0.68rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
@@ -318,19 +316,16 @@
 
     <div class="content">
 
-      <!-- LOGO GROUP + TITLE (grouped so logos align to title width) -->
+      <!-- LOGO GROUP + TITLE -->
       <div class="event-header">
         <div class="logo-group">
           <div class="logos">
-            <div class="logo-ap4-wrap">
-              <a href="/"><img src="/images/AP4-Logo-White.png" alt="AP4 Tech Park" class="logo-ap4" /></a>
+            <a href="/"><img src="/images/AP4-Logo-White.png" alt="AP4 Tech Park" class="logo-ap4" /></a>
+            <div class="logo-divider">
+              <p class="presents">Presents</p>
             </div>
-            <div class="logo-divider"></div>
-            <div class="logo-fm-wrap">
-              <img src="/images/FM-Logo.png" alt="FM GlobalNet" class="logo-fm" />
-            </div>
+            <img src="/images/FM-Logo.png" alt="FM GlobalNet" class="logo-fm" />
           </div>
-          <p class="presents">Presents</p>
         </div>
 
         <h1 class="title">Badminton &amp; Squash Tournament</h1>
