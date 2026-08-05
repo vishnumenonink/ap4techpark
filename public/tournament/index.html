@@ -85,20 +85,11 @@
       flex-direction: column;
       align-items: center;
       gap: 8px;
-      width: 100%;
-      max-width: 460px;
     }
     .logos {
       display: flex;
       align-items: center;
-      width: 100%;
-    }
-    .logo-slot {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 24px;
+      gap: 28px;
     }
     .logo-ap4 { height: 48px; width: auto; }
     .logo-fm  { height: 36px; width: auto; }
@@ -293,8 +284,7 @@
       .logo-ap4 { height: 30px; }
       .logo-fm  { height: 24px; }
       .logo-divider { height: 26px; }
-      .logo-slot { padding: 0 14px; }
-      .logo-group { max-width: 320px; }
+      .logos { gap: 18px; }
       .title { font-size: 1.3rem; }
       .form-wrap { padding: 18px 18px 16px; }
       .pills { gap: 5px; }
@@ -318,13 +308,9 @@
       <!-- LOGOS + PRESENTS -->
       <div class="logo-group">
         <div class="logos">
-          <div class="logo-slot">
-            <a href="/"><img src="/images/AP4-Logo-White.png" alt="AP4 Tech Park" class="logo-ap4" /></a>
-          </div>
+          <a href="/"><img src="/images/AP4-Logo-White.png" alt="AP4 Tech Park" class="logo-ap4" /></a>
           <div class="logo-divider"></div>
-          <div class="logo-slot">
-            <img src="/images/FM-Logo.png" alt="FM GlobalNet" class="logo-fm" />
-          </div>
+          <img src="/images/FM-Logo.png" alt="FM GlobalNet" class="logo-fm" />
         </div>
         <p class="presents">Presents</p>
       </div>
