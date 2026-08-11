@@ -692,7 +692,7 @@ function updateFormFields() {
     fieldEmail.style.display = 'block';
     fieldPhone.style.display = 'block';
     if (emailInput) emailInput.required = true;
-    if (phoneInput) phoneInput.required = false;
+    if (phoneInput) phoneInput.required = true;
   } else if (val === 'Request Callback - AP4 Tech Park') {
     fieldEmail.style.display = 'none';
     fieldPhone.style.display = 'block';
@@ -708,14 +708,64 @@ function updateFormFields() {
 
 if (subjectSel) subjectSel.addEventListener('change', updateFormFields);
 
+// Clear error highlight as soon as the user interacts with a field
+['fname', 'fsubject', 'femail', 'fphone'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', () => el.closest('.form-group')?.classList.remove('has-error'));
+});
+['sfsubject', 'sfemail', 'sfphone'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', () => el.closest('.sf-group')?.classList.remove('has-error'));
+});
+const sfNameInput = document.querySelector('[name="sfname"]');
+if (sfNameInput) sfNameInput.addEventListener('input', () => sfNameInput.closest('.sf-group')?.classList.remove('has-error'));
+
+function setFieldError(groupEl, hasError) {
+  if (!groupEl) return;
+  if (hasError) groupEl.classList.add('has-error');
+  else          groupEl.classList.remove('has-error');
+}
+
 if (form) {
   form.addEventListener('submit', async e => {
     e.preventDefault();
 
     const name    = form.querySelector('[name="name"]').value.trim();
-    const subject = subjectSel ? subjectSel.value : 'AP4 Tech Park Enquiry';
+    const subject = subjectSel ? subjectSel.value : '';
     const email   = emailInput ? emailInput.value.trim() : '';
     const phone   = phoneInput ? phoneInput.value.trim() : '';
+
+    // ── Validate fields ──
+    let valid = true;
+
+    const nameGroup    = document.getElementById('fieldName');
+    const subjectGroup = document.getElementById('fieldSubject');
+    const emailGroup   = document.getElementById('fieldEmail');
+    const phoneGroup   = document.getElementById('fieldPhone');
+
+    setFieldError(nameGroup,    !name);
+    setFieldError(subjectGroup, !subject);
+    if (!name || !subject) valid = false;
+
+    if (subject === 'Request Details - AP4 Tech Park') {
+      const emailOk = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      const phoneOk = phone.length > 0;
+      setFieldError(emailGroup, !emailOk);
+      setFieldError(phoneGroup, !phoneOk);
+      if (!emailOk || !phoneOk) valid = false;
+    } else if (subject === 'Request Callback - AP4 Tech Park') {
+      const phoneOk = phone.length > 0;
+      setFieldError(phoneGroup, !phoneOk);
+      if (!phoneOk) valid = false;
+    }
+
+    if (!valid) return;
+
+    const recaptchaToken = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse(window._mainRecaptchaId) : '';
+    if (!recaptchaToken) {
+      alert('Please complete the reCAPTCHA verification.');
+      return;
+    }
 
     const btn  = form.querySelector('.form-submit');
     const orig = btn.textContent;
@@ -726,7 +776,7 @@ if (form) {
       const res = await fetch('/api/submit-lead', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ name, email, phone, subject })
+        body:    JSON.stringify({ name, email, phone, subject, recaptchaToken })
       });
 
       if (res.ok) {
@@ -734,6 +784,7 @@ if (form) {
       } else {
         btn.textContent = 'Something went wrong. Please try again.';
         btn.style.background = '#c0392b';
+        if (typeof grecaptcha !== 'undefined') grecaptcha.reset(window._mainRecaptchaId);
         setTimeout(() => {
           btn.textContent = orig;
           btn.disabled = false;
@@ -743,6 +794,7 @@ if (form) {
     } catch (err) {
       btn.textContent = 'Something went wrong. Please try again.';
       btn.style.background = '#c0392b';
+      if (typeof grecaptcha !== 'undefined') grecaptcha.reset(window._mainRecaptchaId);
       setTimeout(() => {
         btn.textContent = orig;
         btn.disabled = false;
@@ -823,11 +875,11 @@ window.addEventListener('load', () => {
       if (sfEmail) sfEmail.style.display = 'block';
       if (sfPhone) sfPhone.style.display = 'block';
       if (sfEmailInput) sfEmailInput.required = true;
-      if (sfPhoneInput) sfPhoneInput.required = false;
+      if (sfPhoneInput) sfPhoneInput.required = true;
     } else if (val === 'Request Callback - AP4 Tech Park') {
       if (sfEmail) sfEmail.style.display = 'none';
       if (sfPhone) sfPhone.style.display = 'block';
-      if (sfEmailInput) { sfEmailInput.required = false; if(sfEmailInput) sfEmailInput.value = ''; }
+      if (sfEmailInput) { sfEmailInput.required = false; sfEmailInput.value = ''; }
       if (sfPhoneInput) sfPhoneInput.required = true;
     } else {
       if (sfEmail) sfEmail.style.display = 'none';
@@ -842,9 +894,41 @@ window.addEventListener('load', () => {
     sForm.addEventListener('submit', async e => {
       e.preventDefault();
       const name    = sForm.querySelector('[name="sfname"]').value.trim();
-      const subject = sSel ? sSel.value : 'AP4 Tech Park Enquiry';
+      const subject = sSel ? sSel.value : '';
       const email   = sfEmailInput ? sfEmailInput.value.trim() : '';
       const phone   = sfPhoneInput ? sfPhoneInput.value.trim() : '';
+
+      // ── Validate sticky form fields ──
+      let sfValid = true;
+
+      const sfNameGroup    = document.getElementById('sfieldName');
+      const sfSubjectGroup = document.getElementById('sfieldSubject');
+      const sfEmailGroup   = document.getElementById('sfieldEmail');
+      const sfPhoneGroup   = document.getElementById('sfieldPhone');
+
+      setFieldError(sfNameGroup,    !name);
+      setFieldError(sfSubjectGroup, !subject);
+      if (!name || !subject) sfValid = false;
+
+      if (subject === 'Request Details - AP4 Tech Park') {
+        const emailOk = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        const phoneOk = phone.length > 0;
+        setFieldError(sfEmailGroup, !emailOk);
+        setFieldError(sfPhoneGroup, !phoneOk);
+        if (!emailOk || !phoneOk) sfValid = false;
+      } else if (subject === 'Request Callback - AP4 Tech Park') {
+        const phoneOk = phone.length > 0;
+        setFieldError(sfPhoneGroup, !phoneOk);
+        if (!phoneOk) sfValid = false;
+      }
+
+      if (!sfValid) return;
+
+      const recaptchaToken = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse(window._stickyRecaptchaId) : '';
+      if (!recaptchaToken) {
+        alert('Please complete the reCAPTCHA verification.');
+        return;
+      }
 
       const btn  = sForm.querySelector('.sf-submit');
       const orig = btn.textContent;
@@ -855,18 +939,20 @@ window.addEventListener('load', () => {
         const res = await fetch('/api/submit-lead', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, phone, subject })
+          body: JSON.stringify({ name, email, phone, subject, recaptchaToken })
         });
         if (res.ok) {
           window.location.href = '/thank-you';
         } else {
           btn.textContent = 'Try again';
           btn.style.background = '#c0392b';
+          if (typeof grecaptcha !== 'undefined') grecaptcha.reset(window._stickyRecaptchaId);
           setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; }, 3000);
         }
       } catch {
         btn.textContent = 'Try again';
         btn.style.background = '#c0392b';
+        if (typeof grecaptcha !== 'undefined') grecaptcha.reset(window._stickyRecaptchaId);
         setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; }, 3000);
       }
     });

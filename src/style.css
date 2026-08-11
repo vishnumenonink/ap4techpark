@@ -1910,6 +1910,34 @@ h3 em { font-style: italic; font-weight: 400; }
 .form-group textarea { resize: none; }
 .form-submit { width: 100%; justify-content: center; font-size: 1rem; margin-top: 8px; }
 .form-conditional { display: none; }
+
+/* Validation error state */
+.form-group.has-error input,
+.form-group.has-error select {
+  border-color: #e05c5c;
+  background: rgba(224,92,92,0.08);
+}
+.form-group .field-error-msg {
+  font-size: 0.75rem;
+  color: #e05c5c;
+  margin-top: -4px;
+  display: none;
+}
+.form-group.has-error .field-error-msg { display: block; }
+
+/* Sticky form error state */
+.sf-group.has-error input,
+.sf-group.has-error select {
+  border-color: #e05c5c !important;
+  background: rgba(224,92,92,0.10) !important;
+}
+.sf-group .field-error-msg {
+  font-size: 0.72rem;
+  color: #e05c5c;
+  margin-top: 3px;
+  display: none;
+}
+.sf-group.has-error .field-error-msg { display: block; }
 .form-legal {
   font-size: 0.70rem;
   color: rgba(255,255,255,0.25);

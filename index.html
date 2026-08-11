@@ -10,6 +10,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/style.css" />
+  <!-- Google reCAPTCHA v2 -->
+  <script src="https://www.google.com/recaptcha/api.js?onload=recaptchaOnload&render=explicit" async defer></script>
+  <script>
+    window.recaptchaOnload = function() {
+      window._mainRecaptchaId = grecaptcha.render('mainRecaptcha', {
+        sitekey: '6LexQIAtAAAAAO7DCaspFFv9mNqe6gW4NBDzwJtI'
+      });
+      window._stickyRecaptchaId = grecaptcha.render('stickyRecaptcha', {
+        sitekey: '6LexQIAtAAAAAO7DCaspFFv9mNqe6gW4NBDzwJtI',
+        size: 'compact'
+      });
+    };
+  </script>
   <!-- LinkedIn Insight Tag -->
   <script type="text/javascript">
     _linkedin_partner_id = "9843833";
@@ -694,26 +707,31 @@
       </div>
       <form class="contact-form reveal-up delay-2" id="contactForm" novalidate>
         <h3>Schedule a Site Visit</h3>
-        <div class="form-group">
+        <div class="form-group" id="fieldName">
           <label for="fname">Full Name *</label>
           <input type="text" id="fname" name="name" placeholder="Your name" required />
+          <span class="field-error-msg">Please enter your name.</span>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="fieldSubject">
           <label for="fsubject">I want to *</label>
           <select id="fsubject" name="subject" required>
             <option value="">Select an option</option>
             <option value="Request Details - AP4 Tech Park">Request Details</option>
             <option value="Request Callback - AP4 Tech Park">Request a Callback</option>
           </select>
+          <span class="field-error-msg">Please select an option.</span>
         </div>
         <div class="form-group form-conditional" id="fieldEmail">
           <label for="femail">Email *</label>
           <input type="email" id="femail" name="email" placeholder="you@company.com" />
+          <span class="field-error-msg">Please enter a valid email address.</span>
         </div>
         <div class="form-group form-conditional" id="fieldPhone">
           <label for="fphone">Phone *</label>
           <input type="tel" id="fphone" name="phone" placeholder="+91 98765 43210" />
+          <span class="field-error-msg">Please enter your phone number.</span>
         </div>
+        <div id="mainRecaptcha" style="margin-bottom:16px;"></div>
         <button type="submit" class="btn btn-dark form-submit">Request a Visit →</button>
         <p class="form-legal">By submitting you agree to be contacted by the AP4 Tech Park sales team. This is not a booking or allotment.</p>
       </form>
@@ -737,22 +755,27 @@
       <button class="sticky-enquiry-close" id="stickyEnquiryClose" aria-label="Close">✕</button>
       <h4 class="sf-title">Schedule a Site Visit</h4>
       <form class="sticky-form" id="stickyContactForm" novalidate>
-        <div class="sf-group">
+        <div class="sf-group" id="sfieldName">
           <input type="text" name="sfname" placeholder="Full Name *" required />
+          <span class="field-error-msg">Please enter your name.</span>
         </div>
-        <div class="sf-group">
+        <div class="sf-group" id="sfieldSubject">
           <select id="sfsubject" name="sfsubject" required>
             <option value="">I want to…</option>
             <option value="Request Details - AP4 Tech Park">Request Details</option>
             <option value="Request Callback - AP4 Tech Park">Request a Callback</option>
           </select>
+          <span class="field-error-msg">Please select an option.</span>
         </div>
         <div class="sf-group sf-conditional" id="sfieldEmail" style="display:none">
           <input type="email" id="sfemail" name="sfemail" placeholder="Email *" />
+          <span class="field-error-msg">Please enter a valid email address.</span>
         </div>
         <div class="sf-group sf-conditional" id="sfieldPhone" style="display:none">
           <input type="tel" id="sfphone" name="sfphone" placeholder="Phone *" />
+          <span class="field-error-msg">Please enter your phone number.</span>
         </div>
+        <div id="stickyRecaptcha" style="margin-bottom:12px;"></div>
         <button type="submit" class="sf-submit">Request a Visit →</button>
       </form>
     </div>

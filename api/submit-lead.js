@@ -1,9 +1,30 @@
+const RECAPTCHA_SECRET = '6LexQIAtAAAAAOBCDWgcus619b4-G26hNPZ7OED1';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { name, email, phone, subject } = req.body;
+  const { name, email, phone, subject, recaptchaToken } = req.body;
+
+  // Verify reCAPTCHA token
+  if (!recaptchaToken) {
+    return res.status(400).json({ error: 'reCAPTCHA token missing' });
+  }
+  try {
+    const verifyRes = await fetch(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${RECAPTCHA_SECRET}&response=${encodeURIComponent(recaptchaToken)}`,
+      { method: 'POST' }
+    );
+    const verifyData = await verifyRes.json();
+    if (!verifyData.success) {
+      console.warn('reCAPTCHA failed:', verifyData['error-codes']);
+      return res.status(400).json({ error: 'reCAPTCHA verification failed' });
+    }
+  } catch (err) {
+    console.error('reCAPTCHA verification error:', err.message);
+    return res.status(500).json({ error: 'reCAPTCHA verification error' });
+  }
 
   // Build DumpdataObjectId: DDMMYYHHMMSS
   const now = new Date();
