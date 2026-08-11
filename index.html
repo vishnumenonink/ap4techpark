@@ -10,19 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/style.css" />
-  <!-- Google reCAPTCHA v2 -->
-  <script src="https://www.google.com/recaptcha/api.js?onload=recaptchaOnload&render=explicit" async defer></script>
-  <script>
-    window.recaptchaOnload = function() {
-      window._mainRecaptchaId = grecaptcha.render('mainRecaptcha', {
-        sitekey: '6LexQIAtAAAAAO7DCaspFFv9mNqe6gW4NBDzwJtI'
-      });
-      window._stickyRecaptchaId = grecaptcha.render('stickyRecaptcha', {
-        sitekey: '6LexQIAtAAAAAO7DCaspFFv9mNqe6gW4NBDzwJtI',
-        size: 'compact'
-      });
-    };
-  </script>
+  <!-- Google reCAPTCHA v3 (invisible) -->
+  <script src="https://www.google.com/recaptcha/api.js?render=6LexQIAtAAAAAO7DCaspFFv9mNqe6gW4NBDzwJtI" async defer></script>
   <!-- LinkedIn Insight Tag -->
   <script type="text/javascript">
     _linkedin_partner_id = "9843833";
@@ -731,7 +720,6 @@
           <input type="tel" id="fphone" name="phone" placeholder="+91 98765 43210" />
           <span class="field-error-msg">Please enter your phone number.</span>
         </div>
-        <div id="mainRecaptcha" style="margin-bottom:16px;"></div>
         <button type="submit" class="btn btn-dark form-submit">Request a Visit →</button>
         <p class="form-legal">By submitting you agree to be contacted by the AP4 Tech Park sales team. This is not a booking or allotment.</p>
       </form>
@@ -775,7 +763,6 @@
           <input type="tel" id="sfphone" name="sfphone" placeholder="Phone *" />
           <span class="field-error-msg">Please enter your phone number.</span>
         </div>
-        <div id="stickyRecaptcha" style="margin-bottom:12px;"></div>
         <button type="submit" class="sf-submit">Request a Visit →</button>
       </form>
     </div>

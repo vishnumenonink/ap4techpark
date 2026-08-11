@@ -761,18 +761,16 @@ if (form) {
 
     if (!valid) return;
 
-    const recaptchaToken = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse(window._mainRecaptchaId) : '';
-    if (!recaptchaToken) {
-      alert('Please complete the reCAPTCHA verification.');
-      return;
-    }
-
     const btn  = form.querySelector('.form-submit');
     const orig = btn.textContent;
     btn.textContent = 'Sending…';
     btn.disabled = true;
 
     try {
+      const recaptchaToken = typeof grecaptcha !== 'undefined'
+        ? await grecaptcha.execute('6LexQIAtAAAAAO7DCaspFFv9mNqe6gW4NBDzwJtI', { action: 'submit_lead' })
+        : '';
+
       const res = await fetch('/api/submit-lead', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -784,7 +782,6 @@ if (form) {
       } else {
         btn.textContent = 'Something went wrong. Please try again.';
         btn.style.background = '#c0392b';
-        if (typeof grecaptcha !== 'undefined') grecaptcha.reset(window._mainRecaptchaId);
         setTimeout(() => {
           btn.textContent = orig;
           btn.disabled = false;
@@ -794,7 +791,6 @@ if (form) {
     } catch (err) {
       btn.textContent = 'Something went wrong. Please try again.';
       btn.style.background = '#c0392b';
-      if (typeof grecaptcha !== 'undefined') grecaptcha.reset(window._mainRecaptchaId);
       setTimeout(() => {
         btn.textContent = orig;
         btn.disabled = false;
@@ -924,18 +920,16 @@ window.addEventListener('load', () => {
 
       if (!sfValid) return;
 
-      const recaptchaToken = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse(window._stickyRecaptchaId) : '';
-      if (!recaptchaToken) {
-        alert('Please complete the reCAPTCHA verification.');
-        return;
-      }
-
       const btn  = sForm.querySelector('.sf-submit');
       const orig = btn.textContent;
       btn.textContent = 'Sending…';
       btn.disabled = true;
 
       try {
+        const recaptchaToken = typeof grecaptcha !== 'undefined'
+          ? await grecaptcha.execute('6LexQIAtAAAAAO7DCaspFFv9mNqe6gW4NBDzwJtI', { action: 'submit_lead' })
+          : '';
+
         const res = await fetch('/api/submit-lead', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -946,13 +940,11 @@ window.addEventListener('load', () => {
         } else {
           btn.textContent = 'Try again';
           btn.style.background = '#c0392b';
-          if (typeof grecaptcha !== 'undefined') grecaptcha.reset(window._stickyRecaptchaId);
           setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; }, 3000);
         }
       } catch {
         btn.textContent = 'Try again';
         btn.style.background = '#c0392b';
-        if (typeof grecaptcha !== 'undefined') grecaptcha.reset(window._stickyRecaptchaId);
         setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; }, 3000);
       }
     });

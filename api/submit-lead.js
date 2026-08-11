@@ -17,8 +17,8 @@ export default async function handler(req, res) {
       { method: 'POST' }
     );
     const verifyData = await verifyRes.json();
-    if (!verifyData.success) {
-      console.warn('reCAPTCHA failed:', verifyData['error-codes']);
+    if (!verifyData.success || (verifyData.score !== undefined && verifyData.score < 0.5)) {
+      console.warn('reCAPTCHA failed — score:', verifyData.score, 'errors:', verifyData['error-codes']);
       return res.status(400).json({ error: 'reCAPTCHA verification failed' });
     }
   } catch (err) {
