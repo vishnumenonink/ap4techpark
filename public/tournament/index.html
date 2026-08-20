@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Badminton & Squash Tournament | AP4 Tech Park</title>
-  <meta name="description" content="Register for the Badminton & Squash Tournament at AP4 Tech Park on 23rd October 2026." />
+  <title>Cricket Tournament | AP4 Tech Park</title>
+  <meta name="description" content="Register for the Cricket Tournament at AP4 Tech Park on 24th October 2026." />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -296,7 +296,7 @@
   <div class="page">
     <div class="bg">
       <img
-        src="/images/AP-Sports-Center/Badminton-Court.jpg"
+        src="/images/AP-Sports-Center/Football-Turf.jpg"
         alt="AP4 Sports Centre"
         fetchpriority="high"
       />
@@ -316,18 +316,18 @@
           </div>
         </div>
 
-        <h1 class="title">Badminton &amp; Squash Tournament</h1>
+        <h1 class="title">Cricket Tournament</h1>
       </div>
 
       <!-- EVENT META -->
       <div class="pills">
         <span class="pill">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          23rd October 2026 &nbsp;&middot;&nbsp; Friday
+          24th October 2026 &nbsp;&middot;&nbsp; Saturday
         </span>
         <span class="pill">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          4:30 PM Onwards
+          8:45 AM Onwards
         </span>
         <span class="pill">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -354,12 +354,9 @@
             <input type="tel" id="phone" name="phone" placeholder="+91 XXXXX XXXXX" required autocomplete="tel" />
           </div>
           <div class="field">
-            <label for="sport">Choice of Sport</label>
+            <label for="sport">Sport</label>
             <select id="sport" name="sport" required>
-              <option value="" disabled selected>Select your sport</option>
-              <option value="Badminton">Badminton</option>
-              <option value="Squash">Squash</option>
-              <option value="Both">Both (Badminton &amp; Squash)</option>
+              <option value="Cricket" selected>Cricket</option>
             </select>
           </div>
 
@@ -407,7 +404,7 @@
         });
         if (!res.ok) throw new Error('Server error');
         form.reset();
-        showStatus("You're registered! See you on the court!", 'success');
+        showStatus("You're registered! See you on the pitch!", 'success');
       } catch {
         showStatus('Something went wrong. Please try again.', 'error');
       } finally {
