@@ -2030,8 +2030,7 @@ h3 em { font-style: italic; font-weight: 400; }
   opacity: 0.80;
 }
 .rera-logo--sakhare {
-  height: 64px;
-  max-width: 210px;
+  max-width: 160px;
 }
 
 .site-copyright {
@@ -2279,7 +2278,7 @@ h3 em { font-style: italic; font-weight: 400; }
   .spec-item       { grid-column: span 1 !important; }
   .rera-promoters  { flex-wrap: wrap; gap: 28px; }
   .rera-logo       { height: 36px; max-width: 110px; }
-  .rera-logo--sakhare { height: 36px; max-width: 160px; }
+  .rera-logo--sakhare { max-width: 115px; }
 
   /* Testimonials heading — 3 lines on mobile */
   .testimonials-head h2 em { font-style: italic; }
