@@ -2002,12 +2002,11 @@ h3 em { font-style: italic; font-weight: 400; }
 .rera-promoters {
   display: flex;
   gap: 48px;
-  align-items: flex-end; /* logo bottoms line up */
+  align-items: flex-start;
 }
 .rera-promoter-group {
   display: flex;
   flex-direction: column;
-  align-items: center; /* label centred above logos */
   gap: 12px;
 }
 .rera-role {
@@ -2031,8 +2030,8 @@ h3 em { font-style: italic; font-weight: 400; }
   opacity: 0.80;
 }
 .rera-logo--sakhare {
-  height: 68px;
-  max-width: 240px;
+  height: 48px;
+  max-width: 210px;
 }
 
 .site-copyright {
@@ -2280,7 +2279,7 @@ h3 em { font-style: italic; font-weight: 400; }
   .spec-item       { grid-column: span 1 !important; }
   .rera-promoters  { flex-wrap: wrap; gap: 28px; }
   .rera-logo       { height: 36px; max-width: 110px; }
-  .rera-logo--sakhare { height: 52px; max-width: 180px; }
+  .rera-logo--sakhare { height: 36px; max-width: 160px; }
 
   /* Testimonials heading — 3 lines on mobile */
   .testimonials-head h2 em { font-style: italic; }
