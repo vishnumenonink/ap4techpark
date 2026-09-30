@@ -16,7 +16,6 @@
       --ink:        #060e1a;
       --gold:       #b8963e;
       --gold-light: #d4a853;
-      --gold-pale:  #f5e9c8;
       --cream:      #fdf8f0;
       --white:      #ffffff;
       --muted:      #6b7280;
@@ -32,17 +31,21 @@
       font-family: var(--sans);
     }
 
-    /* ── PAGE SPLIT LAYOUT ── */
+    /* ── DESKTOP: two-column, full viewport height ── */
     .page {
       display: flex;
+      height: 100%;
       min-height: 100vh;
     }
 
-    /* ── LEFT — IMAGE PANEL ── */
+    /* ─────────────────────────────────────
+       LEFT — IMAGE PANEL
+    ───────────────────────────────────── */
     .panel-image {
-      position: relative;
-      flex: 0 0 56%;
-      min-height: 100vh;
+      position: sticky;
+      top: 0;
+      flex: 0 0 55%;
+      height: 100vh;
       overflow: hidden;
     }
 
@@ -52,23 +55,23 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 30%;
+      object-position: center 25%;
     }
 
-    /* Light warm overlay — lets image shine through */
+    /* gradient overlay */
     .panel-image::after {
       content: '';
       position: absolute;
       inset: 0;
       background: linear-gradient(
-        135deg,
-        rgba(6,14,26,0.60)  0%,
-        rgba(6,14,26,0.32) 45%,
-        rgba(184,150,62,0.18) 100%
+        160deg,
+        rgba(6,14,26,0.65)  0%,
+        rgba(6,14,26,0.28) 50%,
+        rgba(184,150,62,0.15) 100%
       );
     }
 
-    /* Gold top bar */
+    /* gold top bar */
     .panel-image::before {
       content: '';
       position: absolute;
@@ -79,10 +82,9 @@
     }
 
     .panel-content {
-      position: relative;
+      position: absolute;
+      inset: 0;
       z-index: 2;
-      height: 100%;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -95,8 +97,8 @@
       align-items: center;
       gap: 24px;
     }
-    .logo-ap4 { height: 46px; width: auto; }
-    .logo-fm  { height: 34px; width: auto; }
+    .logo-ap4 { height: 44px; width: auto; }
+    .logo-fm  { height: 33px; width: auto; }
     .logo-divider {
       position: relative;
       width: 1px;
@@ -117,68 +119,56 @@
     }
 
     /* ── EVENT INFO ── */
-    .event-info {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
+    .event-info { display: flex; flex-direction: column; gap: 18px; }
 
     .event-eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.68rem;
+      font-size: 0.67rem;
       font-weight: 600;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--gold-light);
     }
-    .eyebrow-dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--gold-light);
-      flex-shrink: 0;
-    }
+    .eyebrow-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold-light); flex-shrink: 0; }
 
     .event-title {
       font-family: var(--serif);
-      font-size: clamp(2rem, 3.8vw, 3rem);
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
       font-weight: 500;
       line-height: 1.05;
       color: #ffffff;
     }
-
     .event-tagline {
       font-family: var(--serif);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-style: italic;
-      color: rgba(255,255,255,0.72);
+      color: rgba(255,255,255,0.70);
       line-height: 1.5;
     }
 
-    /* ── META PILLS on image ── */
-    .pills {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    /* ── META PILLS ── */
+    .pills { display: flex; flex-direction: column; gap: 9px; }
     .pill {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.11);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.28);
+      border: 1px solid rgba(255,255,255,0.26);
       border-radius: 999px;
       padding: 8px 18px;
-      font-size: 0.82rem;
+      font-size: 0.81rem;
       color: #ffffff;
       width: fit-content;
     }
     .pill svg { color: var(--gold-light); flex-shrink: 0; }
 
-    /* ── RIGHT — FORM PANEL ── */
+    /* ─────────────────────────────────────
+       RIGHT — FORM PANEL
+    ───────────────────────────────────── */
     .panel-form {
       flex: 1;
       background: var(--white);
@@ -187,9 +177,10 @@
       justify-content: center;
       padding: 52px 52px 44px;
       position: relative;
+      overflow-y: auto;
     }
 
-    /* Subtle gold left border */
+    /* subtle gold left border */
     .panel-form::before {
       content: '';
       position: absolute;
@@ -199,7 +190,7 @@
     }
 
     .form-eyebrow {
-      font-size: 0.68rem;
+      font-size: 0.67rem;
       font-weight: 700;
       letter-spacing: 0.20em;
       text-transform: uppercase;
@@ -212,15 +203,16 @@
       font-weight: 500;
       color: var(--ink);
       margin-bottom: 4px;
+      line-height: 1.1;
     }
     .form-sub {
       font-size: 0.84rem;
       color: var(--muted);
       margin-bottom: 28px;
-      line-height: 1.5;
+      line-height: 1.55;
     }
 
-    .field { margin-bottom: 14px; }
+    .field { margin-bottom: 13px; }
     .field label {
       display: block;
       font-size: 0.70rem;
@@ -241,7 +233,7 @@
       font-family: var(--sans);
       color: var(--ink);
       outline: none;
-      transition: border-color 0.2s, background 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
       -webkit-appearance: none;
       appearance: none;
     }
@@ -324,42 +316,62 @@
       line-height: 1.5;
     }
 
-    /* ── MOBILE ── */
+    /* ─────────────────────────────────────
+       MOBILE — stacked layout
+    ───────────────────────────────────── */
     @media (max-width: 820px) {
-      .page { flex-direction: column; }
+      html, body { height: auto; }
 
+      .page {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+      }
+
+      /* Image panel: fixed height, not sticky */
       .panel-image {
+        position: relative;
         flex: none;
-        min-height: 52vh;
-        height: 52vh;
+        width: 100%;
+        height: 50vw;
+        min-height: 220px;
+        max-height: 320px;
       }
 
       .panel-content {
-        padding: 28px 28px 32px;
-        min-height: 52vh;
+        padding: 22px 24px 26px;
       }
 
-      .logos { gap: 18px; }
-      .logo-ap4 { height: 38px; }
-      .logo-fm  { height: 28px; }
+      .logos { gap: 16px; }
+      .logo-ap4 { height: 34px; }
+      .logo-fm  { height: 26px; }
+      .logo-divider { height: 30px; }
 
-      .event-title { font-size: 1.8rem; }
-      .event-tagline { font-size: 0.95rem; }
-      .pill { font-size: 0.76rem; padding: 7px 14px; }
+      .event-title { font-size: 1.55rem; }
+      .event-tagline { font-size: 0.88rem; }
 
+      .pills { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+      .pill { font-size: 0.73rem; padding: 6px 12px; }
+
+      /* Form panel: natural height, no sticky */
       .panel-form {
-        padding: 36px 28px 40px;
+        flex: none;
+        width: 100%;
+        padding: 32px 24px 40px;
+        justify-content: flex-start;
+        overflow-y: visible;
       }
       .panel-form::before { display: none; }
 
       .form-heading { font-size: 1.6rem; }
+      .form-sub { margin-bottom: 20px; }
     }
 
-    @media (max-width: 420px) {
-      .panel-image { min-height: 48vh; height: 48vh; }
-      .panel-content { padding: 22px 22px 24px; }
-      .event-title { font-size: 1.55rem; }
-      .panel-form { padding: 28px 20px 32px; }
+    @media (max-width: 400px) {
+      .panel-image { height: 56vw; }
+      .panel-content { padding: 18px 18px 22px; }
+      .event-title { font-size: 1.35rem; }
+      .panel-form { padding: 26px 18px 36px; }
     }
   </style>
 </head>
@@ -372,7 +384,6 @@
     <img src="/images/AP-Sports-Center/AP-Colosseum.jpg" alt="AP4 Sports Centre" fetchpriority="high" />
     <div class="panel-content">
 
-      <!-- Logos -->
       <div class="logos">
         <a href="/"><img src="/images/AP4-Logo-White.png" alt="AP4 Tech Park" class="logo-ap4" /></a>
         <div class="logo-divider">
@@ -381,7 +392,6 @@
         <img src="/images/FM-Logo.png" alt="FM GlobalNet" class="logo-fm" />
       </div>
 
-      <!-- Event Info -->
       <div class="event-info">
         <div>
           <p class="event-eyebrow">
@@ -415,7 +425,7 @@
   <div class="panel-form">
     <p class="form-eyebrow">Registration</p>
     <h2 class="form-heading">Reserve Your Spot</h2>
-    <p class="form-sub">Limited entries available. Fill in your details<br/>and we'll confirm your registration.</p>
+    <p class="form-sub">Limited entries available. Fill in your details and we'll confirm your registration.</p>
 
     <form id="sportsFestForm" novalidate>
       <div class="field">
