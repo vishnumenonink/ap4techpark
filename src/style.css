@@ -2031,8 +2031,8 @@ h3 em { font-style: italic; font-weight: 400; }
   opacity: 0.80;
 }
 .rera-logo--sakhare {
-  height: 48px;   /* matches Amar & Pristine — same vertical span */
-  max-width: 210px; /* wide enough for the landscape logo */
+  height: 68px;
+  max-width: 240px;
 }
 
 .site-copyright {
@@ -2280,7 +2280,7 @@ h3 em { font-style: italic; font-weight: 400; }
   .spec-item       { grid-column: span 1 !important; }
   .rera-promoters  { flex-wrap: wrap; gap: 28px; }
   .rera-logo       { height: 36px; max-width: 110px; }
-  .rera-logo--sakhare { height: 36px; max-width: 160px; }
+  .rera-logo--sakhare { height: 52px; max-width: 180px; }
 
   /* Testimonials heading — 3 lines on mobile */
   .testimonials-head h2 em { font-style: italic; }
