@@ -24,8 +24,7 @@
     }
 
     html, body {
-      height: 100%;
-      overflow: hidden;
+      min-height: 100%;
       background: var(--ink);
       color: var(--white);
       font-family: var(--sans);
@@ -34,15 +33,14 @@
     /* ── FULL-PAGE WRAPPER ── */
     .page {
       position: relative;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
     }
 
     /* ── BACKGROUND IMAGE ── */
     .bg {
-      position: absolute;
+      position: fixed;
       inset: 0;
       z-index: 0;
     }
@@ -287,8 +285,7 @@
         );
       }
 
-      html, body { overflow: auto; }
-      .page { height: auto; min-height: 100vh; }
+      .page { min-height: 100vh; }
 
       .content {
         gap: 11px;
@@ -404,7 +401,7 @@
             <option value="" disabled selected>Choose an option</option>
             <option value="Cricket">Cricket</option>
             <option value="Pickleball">Pickleball</option>
-            <option value="Spectator">Spectator</option>
+            <option value="Supporter">Supporter</option>
           </select>
         </div>
         <button type="submit" class="submit-btn" id="submitBtn">
