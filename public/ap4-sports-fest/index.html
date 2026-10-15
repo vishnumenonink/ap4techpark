@@ -391,11 +391,20 @@
           <input type="tel" id="phone" name="phone" placeholder="+91 XXXXX XXXXX" required autocomplete="tel" />
         </div>
         <div class="field">
-          <label for="sport">Select Your Sport</label>
+          <label for="company">Company Name</label>
+          <input type="text" id="company" name="company" placeholder="Your company" required autocomplete="organization" />
+        </div>
+        <div class="field">
+          <label for="designation">Designation</label>
+          <input type="text" id="designation" name="designation" placeholder="Your role" required autocomplete="organization-title" />
+        </div>
+        <div class="field">
+          <label for="sport">Participation</label>
           <select id="sport" name="sport" required>
-            <option value="" disabled selected>Choose a sport</option>
+            <option value="" disabled selected>Choose an option</option>
             <option value="Cricket">Cricket</option>
             <option value="Pickleball">Pickleball</option>
+            <option value="Spectator">Spectator</option>
           </select>
         </div>
         <button type="submit" class="submit-btn" id="submitBtn">
@@ -421,12 +430,14 @@
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const name  = form.name.value.trim();
-    const email = form.email.value.trim();
-    const phone = form.phone.value.trim();
-    const sport = form.sport.value;
+    const name        = form.name.value.trim();
+    const email       = form.email.value.trim();
+    const phone       = form.phone.value.trim();
+    const company     = form.company.value.trim();
+    const designation = form.designation.value.trim();
+    const sport       = form.sport.value;
 
-    if (!name || !email || !phone || !sport) {
+    if (!name || !email || !phone || !company || !designation || !sport) {
       showStatus('Please fill in all fields before submitting.', 'error');
       return;
     }
@@ -438,7 +449,7 @@
       const res = await fetch('/api/submit-sports-fest', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, sport }),
+        body: JSON.stringify({ name, email, phone, company, designation, sport }),
       });
       if (!res.ok) throw new Error('Server error');
       form.reset();

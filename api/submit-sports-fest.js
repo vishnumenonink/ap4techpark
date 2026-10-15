@@ -5,17 +5,17 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { name, email, phone, sport } = req.body;
+  const { name, email, phone, company, designation, sport } = req.body;
 
-  if (!name || !email || !phone || !sport) {
+  if (!name || !email || !phone || !company || !designation || !sport) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
   const now = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
   const [emailResult, sheetsResult] = await Promise.allSettled([
-    sendEmail({ name, email, phone, sport, timestamp: now }),
-    appendToSheet({ name, email, phone, sport, timestamp: now }),
+    sendEmail({ name, email, phone, company, designation, sport, timestamp: now }),
+    appendToSheet({ name, email, phone, company, designation, sport, timestamp: now }),
   ]);
 
   console.log('Email:', emailResult.status, '| Sheets:', sheetsResult.status);
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
   return res.status(200).json({ success: true });
 }
 
-async function sendEmail({ name, email, phone, sport, timestamp }) {
+async function sendEmail({ name, email, phone, company, designation, sport, timestamp }) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.log('RESEND_API_KEY not set — skipping email');
@@ -37,7 +37,7 @@ async function sendEmail({ name, email, phone, sport, timestamp }) {
   await resend.emails.send({
     from:    'AP4 Tech Park <noreply@ap4techpark.com>',
     to:      ['amarbuilderssocial@gmail.com'],
-    subject: `Sports Fest Registration — ${name} (${sport})`,
+    subject: `AP4 Sports Fest Registration — ${name} (${sport})`,
     html: `
       <div style="font-family:sans-serif;max-width:560px;margin:0 auto;background:#fdf8f0;border-radius:12px;overflow:hidden;border:1px solid #e5e0d8;">
         <div style="background:#b8963e;padding:24px 32px;">
@@ -58,8 +58,16 @@ async function sendEmail({ name, email, phone, sport, timestamp }) {
               <td style="padding:12px 0;color:#6b7280;">Phone</td>
               <td style="padding:12px 0;">${escHtml(phone)}</td>
             </tr>
+            <tr style="border-bottom:1px solid #e5e0d8;">
+              <td style="padding:12px 0;color:#6b7280;">Company</td>
+              <td style="padding:12px 0;">${escHtml(company)}</td>
+            </tr>
+            <tr style="border-bottom:1px solid #e5e0d8;">
+              <td style="padding:12px 0;color:#6b7280;">Designation</td>
+              <td style="padding:12px 0;">${escHtml(designation)}</td>
+            </tr>
             <tr>
-              <td style="padding:12px 0;color:#6b7280;">Sport</td>
+              <td style="padding:12px 0;color:#6b7280;">Participation</td>
               <td style="padding:12px 0;color:#b8963e;font-weight:600;">${escHtml(sport)}</td>
             </tr>
           </table>
@@ -70,7 +78,7 @@ async function sendEmail({ name, email, phone, sport, timestamp }) {
   });
 }
 
-async function appendToSheet({ name, email, phone, sport, timestamp }) {
+async function appendToSheet({ name, email, phone, company, designation, sport, timestamp }) {
   const WEBHOOK = process.env.SPORTS_FEST_SHEET_WEBHOOK;
   if (!WEBHOOK) {
     console.log('SPORTS_FEST_SHEET_WEBHOOK not set — skipping Sheets');
@@ -80,7 +88,7 @@ async function appendToSheet({ name, email, phone, sport, timestamp }) {
   const res = await fetch(WEBHOOK, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify({ name, email, phone, sport, timestamp }),
+    body:    JSON.stringify({ name, email, phone, company, designation, sport, timestamp }),
   });
 
   if (!res.ok) {
