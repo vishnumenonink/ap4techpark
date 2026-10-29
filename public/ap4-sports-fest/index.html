@@ -263,6 +263,21 @@
       color: #b02020;
     }
 
+    .closed-msg {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 28px 16px;
+      text-align: center;
+    }
+    .closed-msg svg { color: var(--gold); flex-shrink: 0; }
+    .closed-msg p {
+      font-size: 0.90rem;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
     .form-legal {
       font-size: 0.70rem;
       color: #9ca3af;
@@ -371,9 +386,15 @@
 
     <!-- FORM CARD -->
     <div class="form-wrap">
-      <h2 class="form-heading">Reserve Your Spot</h2>
-      <p class="form-sub">Limited entries — fill in your details below.</p>
+      <h2 class="form-heading">Registrations Closed</h2>
+      <p class="form-sub">We've received an overwhelming response — entries are now full.</p>
 
+      <div class="closed-msg">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <p>Thank you for your interest in the AP4 Sports Fest. Registrations are now closed. See you on the 31st!</p>
+      </div>
+
+      <!-- REGISTRATION FORM — commented out, re-enable when needed
       <form id="sportsFestForm" novalidate>
         <div class="field">
           <label for="name">Full Name</label>
@@ -412,6 +433,7 @@
       </form>
 
       <p class="form-legal">By registering you agree to be contacted by the AP4 Tech Park team.</p>
+      END REGISTRATION FORM -->
     </div>
 
   </div>
